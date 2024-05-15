@@ -45,10 +45,12 @@ lastScoringPlayer = nil
 lastScoringTeam = nil
 
 -----------------------------------------------------------------------------
-timer33 = tes3mp.CreateTimer("warning1", time.minutes(2))  -- "1 Minute Left until fight starts!""
-timer4 = tes3mp.CreateTimer("Four", time.minutes(6))
+timer44 = tes3mp.CreateTimer("Three", time.seconds(5))
+timer22 = tes3mp.CreateTimer("Reset", time.seconds(5))
+timer33 = tes3mp.CreateTimer("warning1", time.minutes(4))  -- "1 Minute Left until fight starts!""
+timer4 = tes3mp.CreateTimer("Four", time.minutes(7))
 timer1 = tes3mp.CreateTimer("One", time.minutes(3))
-timertest = tes3mp.CreateTimer("EndIt", time.minutes(7))
+timertest = tes3mp.CreateTimer("EndIt", time.minutes(8))
 ----------------------------------------------------------------------------------------
 
 -- Starts the match with the currently existing configuration
@@ -95,26 +97,28 @@ testDM.MatchInit = function() -- Starts new match, resets matchId, controls map 
 			Players[pid].data.mwTDM.lives = 4
 			Players[pid].data.mwTDM.inmatch = 1 
 				testDM.PlayerInit2(p.pid)
-				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 9 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nRound duration: 7 minutes\nFight starts in 3 minutes.\n" .. color.Orange .. "Buy things, and prepare for battle!\n", false)
+				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 9 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 15 minutes\n" .. color.Red .. "Fight starts in 5 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
 		end
 	end
 	timer0 = tes3mp.CreateTimer("EndIt", time.minutes(2))	-- Does nothing?
-	tes3mp.RestartTimer(timer1, time.minutes(3))
+	tes3mp.RestartTimer(timer44, time.minutes(10))
+	tes3mp.RestartTimer(timer1, time.minutes(5))
 	tes3mp.RestartTimer(timer33, time.minutes(2))  -- warning1 "1 Minute Left until fight starts!"
-	tes3mp.RestartTimer(timer4, time.minutes(6))
-	tes3mp.RestartTimer(timertest, time.minutes(7))  -- Ends the round
+	tes3mp.RestartTimer(timer4, time.minutes(7))
+	tes3mp.RestartTimer(timertest, time.minutes(8))  -- Ends the round
 		for pid, p in pairs(Players) do --this is for the uhhh teleportation into the round.. interesting... 
 			if p ~= nil and p:IsLoggedIn() then
 				timerspawn = tes3mp.CreateTimerEx("PlayerIniti", time.seconds(180), "i", pid)
 				tes3mp.RestartTimer(timerspawn, time.seconds(180))
 			end
 		end
+
 end
 
 function warning1()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "1 Minute Left until fight starts! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. "1:00 \n", false)
 		end
 	end
 	local timer6 = tes3mp.CreateTimer("Six", time.seconds(50))
@@ -134,7 +138,7 @@ end
 function One()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Yellow .. "4 Minutes Left! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. "5:00 \n", false)
 		end
 	end
 end
@@ -142,7 +146,7 @@ end
 function Three()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Yellow .. "1 Minute Left! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. "5:00 \n", false)
 		end
 	end
 end
@@ -162,7 +166,7 @@ function Four()
 	tes3mp.StartTimer(timer11)
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "1 Minute Left until round ends! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. "1:00 \n", false)
 		end
 	end
 end
@@ -170,7 +174,7 @@ end
 function Six()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "10 seconds! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. ":10 \n", false)
 		end
 	end
 end
@@ -178,7 +182,7 @@ end
 function Seven()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "5! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. ":05 \n", false)
 		end
 	end
 end
@@ -186,7 +190,7 @@ end
 function Eight()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "4! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. ":04 \n", false)
 		end
 	end
 end
@@ -194,7 +198,7 @@ end
 function Nine()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "3! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. ":03 \n", false)
 		end
 	end
 end
@@ -202,7 +206,7 @@ end
 function Ten()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "2! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. ":02 \n", false)
 		end
 	end
 end
@@ -210,10 +214,26 @@ end
 function Eleven()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "1! \n", false)
+				tes3mp.SendMessage(pid, color.Red .. ":01 \n", false)
 		end
 	end
 end
+
+function Reset(pid)
+	local pid, p = next(Players)
+	if p ~= nil and p:IsLoggedIn() then
+logicHandler.ResetCell(pid, "-6, -1")
+--logicHandler.ResetCell(pid, "Pelagiad, Fort Pelagiad")
+--logicHandler.ResetCell(pid, "Arkngthand, Weepingbell Hall")
+--logicHandler.ResetCell(pid, "Mzahnch")
+--logicHandler.ResetCell(pid, "Galom Daeus, Entry")
+--logicHandler.ResetCell(pid, "Dagoth Ur, Outer Facility")
+--logicHandler.ResetCell(pid, "Nchardumz")
+--logicHandler.ResetCell(pid, "Nchardumz Lower Level")
+	
+end
+end
+
 
 function EndIt() -- Ends the round and starts a new one? Maybe?
     --check every player and see who has the most lives, and if they have the most, then they won, and if it is a tie, then they tied
@@ -287,9 +307,9 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 		    local Gold = { refId = "gold_001", count = 25, charge = -1}
 		    if Players[pid].data.mwTDM.status == 1 and Players[pid].data.mwTDM.inmatch == 1 then
 			    --table.insert(Players[pid].data.inventory, Gold)
-			    logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25')
+			    logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 50')
 			    local nameon = Players[pid].data.login.name
-			    tes3mp.SendMessage(pid, color.Yellow .. "Added 25 gold for surviving, plus 10 for each life left!\n")
+			    tes3mp.SendMessage(pid, color.Yellow .. "Added 50 gold for surviving, plus 10 for each life left!\n")
 		     elseif Players[pid].data.mwTDM.status == 0 then
 				tes3mp.LogMessage(2, "++++ Got pid: ", pid)
 				if Players[pid] ~= nil and Players[pid]:IsLoggedIn() then
@@ -303,6 +323,17 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 		    end
 	    end
 	    testDM.MatchInit()
+		tes3mp.RestartTimer(timer22, time.seconds(5))
+--[[		local pid, p = next(Players)
+			if p ~= nil and p:IsLoggedIn() then
+		logicHandler.ResetCell(pid, "Arkngthand, Weepingbell Hall")
+		logicHandler.ResetCell(pid, "Mzahnch")
+		logicHandler.ResetCell(pid, "Galom Daeus, Entry")
+		logicHandler.ResetCell(pid, "Dagoth Ur, Outer Facility")
+		logicHandler.ResetCell(pid, "Nchardumz")
+		logicHandler.ResetCell(pid, "Nchardumz Lower Level")
+			
+		end]]
 end
 
 testDM.PlayerInit2 = function(pid)
@@ -420,7 +451,7 @@ testDM.PlayerInit = function(pid)
 		tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
 		testDM.PlayerSpawner2(pid)
 	else -- Player's latest match ID doesn't equal that of current match (if the player came from another match)
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25')
+		--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 150')
 		Players[pid].data.mwTDM.lives = 5
 		testDM.PlayerSpawner(pid)
 		for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams
@@ -565,7 +596,12 @@ testDM.EndCharGen = function(pid) -- happens at End of "charactergeneration"?
     Players[pid]:SaveEquipment(packetReader.GetPlayerPacketTables(pid, "PlayerEquipment"))
     Players[pid]:SaveIpAddress()
     Players[pid]:CreateAccount()
-	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 100')
+	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 150')
+	--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddSpell "balynas_soothing_balm"')
+	logicHandler.RunConsoleCommandOnPlayer(pid, 'AddTopic, "transport to Mournhold"')
+	logicHandler.RunConsoleCommandOnPlayer(pid, 'SetJournalIndex, "TR_DBAttack", 60')
+	--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test chitin dagger" 1')
+	--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 100')
 	testDM.PlayerInit(pid)
 end
 
@@ -773,11 +809,11 @@ end
 
 function Hpotions(pid) --adds and refills health potions
 	if Players[pid] ~= nil then
-	    local potionCount = getPlayerItemCount(pid, "p_restore_health_s")
+	    local potionCount = getPlayerItemCount(pid, "test p_restore_health_s")
 	    if potionCount == 1 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_restore_health_s" 1')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_restore_health_s" 1')
 	    elseif potionCount == 0 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_restore_health_s" 2')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_restore_health_s" 2')
 	    elseif potionCount >= 2 then
 	    	return
 	    end
@@ -786,11 +822,11 @@ end
 
 function Mpotions(pid) --adds and refills magicka potions
 	if Players[pid] ~= nil then
-	    local potionCount = getPlayerItemCount(pid, "p_restore_magicka_s")
+	    local potionCount = getPlayerItemCount(pid, "test p_restore_magicka_s")
 	    if potionCount == 1 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_restore_magicka_s" 1')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_restore_magicka_s" 1')
 	    elseif potionCount == 0 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_restore_magicka_s" 2')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_restore_magicka_s" 2')
 	    elseif potionCount >= 2 then
 	    	return
 	    end
@@ -799,11 +835,11 @@ end
 
 function Fpotions(pid) --adds and refills fatigue potions
 	if Players[pid] ~= nil then
-	    local potionCount = getPlayerItemCount(pid, "p_restore_fatigue_s")
+	    local potionCount = getPlayerItemCount(pid, "test p_restore_fatigue_s")
 	    if potionCount == 1 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_restore_fatigue_s" 1')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_restore_fatigue_s" 1')
 	    elseif potionCount == 0 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_restore_fatigue_s" 2')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_restore_fatigue_s" 2')
 	    elseif potionCount >= 2 then
 	    	return
 	    end
@@ -812,11 +848,11 @@ end
 
 function Rpotions(pid) -- adds and refills spell absorb potions
 	if Players[pid] ~= nil then
-	    local potionCount = getPlayerItemCount(pid, "p_reflection_s")
+	    local potionCount = getPlayerItemCount(pid, "test p_reflection_s")
 	    if potionCount == 1 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_reflection_s" 1')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_reflection_s" 1')
 	    elseif potionCount == 0 then
-	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "p_reflection_s" 2')
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "test p_reflection_s" 2')
 	    elseif potionCount >= 2 then
 	    	return
 	    end
@@ -828,6 +864,83 @@ function PotionRefill(pid)
 	Mpotions(pid)
 	Fpotions(pid)
 	Rpotions(pid)
+end
+
+function PotionRemovalR(pid)
+	
+	if Players[pid] ~= nil then
+	    local potionCount = getPlayerItemCount(pid, "test p_reflection_s")
+		local potionCount2 = getPlayerItemCount(pid, "test p_restore_fatigue_s")
+		local potionCount3 = getPlayerItemCount(pid, "test p_restore_magicka_s")
+		local potionCount4 = getPlayerItemCount(pid, "test p_restore_health_s")
+	    --if potionCount == 1 then
+	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_reflection_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_fatigue_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_magicka_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_health_s" 2')
+	end
+
+	
+end
+
+function PotionRemovalF(pid)
+	
+	if Players[pid] ~= nil then
+	    local potionCount = getPlayerItemCount(pid, "test p_reflection_s")
+		local potionCount2 = getPlayerItemCount(pid, "test p_restore_fatigue_s")
+		local potionCount3 = getPlayerItemCount(pid, "test p_restore_magicka_s")
+		local potionCount4 = getPlayerItemCount(pid, "test p_restore_health_s")
+	    --if potionCount == 1 then
+--	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_reflection_s" 2')
+			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_fatigue_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_magicka_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_health_s" 2')
+	end
+
+	
+end
+
+function PotionRemovalM(pid)
+	
+	if Players[pid] ~= nil then
+	    local potionCount = getPlayerItemCount(pid, "test p_reflection_s")
+		local potionCount2 = getPlayerItemCount(pid, "test p_restore_fatigue_s")
+		local potionCount3 = getPlayerItemCount(pid, "test p_restore_magicka_s")
+		local potionCount4 = getPlayerItemCount(pid, "test p_restore_health_s")
+	    --if potionCount == 1 then
+--	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_reflection_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_fatigue_s" 2')
+			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_magicka_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_health_s" 2')
+	end
+
+	
+end
+
+function PotionRemovalH(pid)
+	
+	if Players[pid] ~= nil then
+	    local potionCount = getPlayerItemCount(pid, "test p_reflection_s")
+		local potionCount2 = getPlayerItemCount(pid, "test p_restore_fatigue_s")
+		local potionCount3 = getPlayerItemCount(pid, "test p_restore_magicka_s")
+		local potionCount4 = getPlayerItemCount(pid, "test p_restore_health_s")
+	    --if potionCount == 1 then
+--	    	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_reflection_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_fatigue_s" 2')
+--			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_magicka_s" 2')
+			logicHandler.RunConsoleCommandOnPlayer(pid, 'player->removeitem "test p_restore_health_s" 2')
+	end
+
+	
+end
+
+function PotionRemoval(pid)
+	if Players[pid] ~= nil then
+		PotionRemovalR(pid)
+		PotionRemovalF(pid)
+		PotionRemovalM(pid)
+		PotionRemovalH(pid)
+	end
 end
 
 function RespawnResting(pid)--"resting" regeneration functions.
@@ -880,6 +993,7 @@ testDM.PlayerSpawner3 = function(pid) --used in Playerinit2 for when NOT in the 
     	logicHandler.RunConsoleCommandOnPlayer(pid, 'EnableLevelUpMenu')
 	else
 	end
+	--PotionRemoval(pid)
 end
 
 testDM.playerauthentified = function() --used for "has joined the game!", if that makes sense
@@ -922,6 +1036,7 @@ testDM.PlayerSpawner = function(pid)
     	logicHandler.RunConsoleCommandOnPlayer(pid, 'EnableLevelUpMenu')
 	else
 	end
+	--PotionRemoval(pid)
 end
 
 	--LastSpawn = []
