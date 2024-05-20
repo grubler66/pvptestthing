@@ -47,6 +47,7 @@ lastScoringTeam = nil
 -----------------------------------------------------------------------------
 timer44 = tes3mp.CreateTimer("Three", time.seconds(5))
 timer22 = tes3mp.CreateTimer("Reset", time.seconds(5))
+timer23 = tes3mp.CreateTimer("Reset2", time.seconds(5))
 timer33 = tes3mp.CreateTimer("warning1", time.minutes(4))  -- "1 Minute Left until fight starts!""
 timer4 = tes3mp.CreateTimer("Four", time.minutes(7))
 timer1 = tes3mp.CreateTimer("One", time.minutes(3))
@@ -97,12 +98,12 @@ testDM.MatchInit = function() -- Starts new match, resets matchId, controls map 
 			Players[pid].data.mwTDM.lives = 4
 			Players[pid].data.mwTDM.inmatch = 1 
 				testDM.PlayerInit2(p.pid)
-				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 9 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 15 minutes\n" .. color.Red .. "Fight starts in 5 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
+				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 9 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 8 minutes\n" .. color.Red .. "Fight starts in 3 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
 		end
 	end
 	timer0 = tes3mp.CreateTimer("EndIt", time.minutes(2))	-- Does nothing?
 	tes3mp.RestartTimer(timer44, time.minutes(10))
-	tes3mp.RestartTimer(timer1, time.minutes(5))
+	tes3mp.RestartTimer(timer1, time.minutes(3))
 	tes3mp.RestartTimer(timer33, time.minutes(2))  -- warning1 "1 Minute Left until fight starts!"
 	tes3mp.RestartTimer(timer4, time.minutes(7))
 	tes3mp.RestartTimer(timertest, time.minutes(8))  -- Ends the round
@@ -141,6 +142,7 @@ function One()
 				tes3mp.SendMessage(pid, color.Red .. "5:00 \n", false)
 		end
 	end
+	tes3mp.RestartTimer(timer23, time.seconds(5))
 end
 
 function Three()
@@ -217,6 +219,21 @@ function Eleven()
 				tes3mp.SendMessage(pid, color.Red .. ":01 \n", false)
 		end
 	end
+end
+
+function Reset2(pid)
+	local pid, p = next(Players)
+	if p ~= nil and p:IsLoggedIn() then
+--logicHandler.ResetCell(pid, "-6, -1")
+logicHandler.ResetCell(pid, "Pelagiad, Fort Pelagiad")
+--logicHandler.ResetCell(pid, "Arkngthand, Weepingbell Hall")
+--logicHandler.ResetCell(pid, "Mzahnch")
+--logicHandler.ResetCell(pid, "Galom Daeus, Entry")
+--logicHandler.ResetCell(pid, "Dagoth Ur, Outer Facility")
+--logicHandler.ResetCell(pid, "Nchardumz")
+--logicHandler.ResetCell(pid, "Nchardumz Lower Level")
+	
+end
 end
 
 function Reset(pid)
@@ -775,7 +792,7 @@ testDM.OnTimerExpiration = function() --not sure if used any more
 end
 
 function HealthRegen(pid) --health regen resting similator for respawning
-    local Result = Players[pid].data.stats.healthCurrent + (Players[pid].data.attributes.Endurance.base * 0.1 ) * 9--[[8]]
+    local Result = Players[pid].data.stats.healthCurrent + (Players[pid].data.attributes.Endurance.base * 0.1 ) * 10--[[8]]
     local something = (Result >= Players[pid].data.stats.healthBase)
 	tes3mp.SendMessage(pid, color.Blue .. "Rested\n")
    if something then
@@ -790,7 +807,7 @@ function MagickaRegen(pid) --magicka regen resting simulator for respawning
 	local var1 = Players[pid].data.stats.magickaCurrent
 	local var2 = Players[pid].data.stats.magickaBase
 	local var3 = Players[pid].data.attributes.Intelligence.base
-	local Result = var1 + (var3 * 0.15 ) * 9--[[8]]
+	local Result = var1 + (var3 * 0.15 ) * 10--[[8]]
 	local something = (Result >= var2)
 	if something then
 	    tes3mp.SetMagickaCurrent(pid, var2)
