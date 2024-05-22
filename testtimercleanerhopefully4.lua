@@ -45,6 +45,8 @@ lastScoringPlayer = nil
 lastScoringTeam = nil
 
 -----------------------------------------------------------------------------
+
+
 timer44 = tes3mp.CreateTimer("Three", time.seconds(5))
 timer22 = tes3mp.CreateTimer("Reset", time.seconds(5))
 timer23 = tes3mp.CreateTimer("Reset2", time.seconds(5))
@@ -98,7 +100,7 @@ testDM.MatchInit = function() -- Starts new match, resets matchId, controls map 
 			Players[pid].data.mwTDM.lives = 4
 			Players[pid].data.mwTDM.inmatch = 1 
 				testDM.PlayerInit2(p.pid)
-				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 9 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 8 minutes\n" .. color.Red .. "Fight starts in 3 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
+				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 10 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 8 minutes\n" .. color.Red .. "Fight starts in 3 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
 		end
 	end
 	timer0 = tes3mp.CreateTimer("EndIt", time.minutes(2))	-- Does nothing?
@@ -328,6 +330,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 			    local nameon = Players[pid].data.login.name
 			    tes3mp.SendMessage(pid, color.Yellow .. "Added 50 gold for surviving, plus 10 for each life left!\n")
 		     elseif Players[pid].data.mwTDM.status == 0 then
+				tes3mp.SendMessage(pid, color.LightGreen .. "elseif...\n")
 				tes3mp.LogMessage(2, "++++ Got pid: ", pid)
 				if Players[pid] ~= nil and Players[pid]:IsLoggedIn() then
 					Players[pid]:SaveStatsDynamic(packetReader.GetPlayerPacketTables(pid, "PlayerStatsDynamic"))
@@ -353,7 +356,8 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 		end]]
 end
 
-testDM.PlayerInit2 = function(pid)
+testDM.PlayerInit2 = function(pid) --used in matchinit
+	tes3mp.SendMessage(pid, color.Green .. "PlayerInit2\n")
 	tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
 	tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
@@ -387,6 +391,7 @@ testDM.PlayerInit2 = function(pid)
 end
 
 testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
+	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
 	if Players[pid] ~= nil then
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	    testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
@@ -425,6 +430,7 @@ testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
 end
 
 function PlayerIniti(pid) --Used for teleportation into the round.
+	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti\n")
 	if Players[pid] ~= nil then
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	    testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
@@ -460,6 +466,7 @@ end
 
 -- make player ready to be spawned in game
 testDM.PlayerInit = function(pid)
+	tes3mp.SendMessage(pid, color.Green .. "PlayerInit\n")
 	tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
 	tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
@@ -564,13 +571,17 @@ testDM.OnDeathTimeExpiration2 = function(pid)
 end
 
 testDM.OnDeathTimeExpiration = function(pid)
+	--magic = Players[pid].data.mwTDM.magicka
+	--Players[pid].data.stats.magickaBase = magic
 	if Players[pid].data.mwTDM.status ~= 1 then
-	    tes3mp.SendMessage(pid, color.Pink .. "Resurrected\n")
+		tes3mp.SendMessage(pid, color.Green .. "OnDeathTimeExpiration\n")
+	    
 	    tes3mp.LogMessage(2, "++++ Got pid: ", pid)
 	    if Players[pid] ~= nil and Players[pid]:IsLoggedIn() and Players[pid].data.mwTDM.lives > -1 and Players[pid].data.mwTDM.inmatch == 1 then
 	    	Players[pid]:SaveStatsDynamic(packetReader.GetPlayerPacketTables(pid, "PlayerStatsDynamic"))
 	    	tes3mp.LogMessage(2, "++++ Respawning pid: ", pid)
 	    	tes3mp.Resurrect(pid, 0)
+			tes3mp.SendMessage(pid, color.Pink .. "Resurrected\n")
 	    	tes3mp.SetHealthCurrent(pid, 1)
 	    	tes3mp.SendStatsDynamic(pid)
 	    	testDM.PlayerInit(pid)
@@ -578,10 +589,12 @@ testDM.OnDeathTimeExpiration = function(pid)
 	        Players[pid]:SaveStatsDynamic(packetReader.GetPlayerPacketTables(pid, "PlayerStatsDynamic"))
 	        tes3mp.LogMessage(2, "++++ Respawning pid: ", pid)
 	        tes3mp.Resurrect(pid, 0)
+			tes3mp.SendMessage(pid, color.Pink .. "Resurrected\n")
 	        tes3mp.SetHealthCurrent(pid, 1)
 	        tes3mp.SendStatsDynamic(pid)
 	        testDM.PlayerInit(pid)
 	    end
+		
 	    local alivecount = 0
 	    if Players[pid] ~= nil and Players[pid]:IsLoggedIn() and Players[pid].data.mwTDM.lives <= -1 then
 	    	for pid, p in pairs(Players) do
@@ -630,6 +643,10 @@ testDM.JSONCheck = function(pid)
 		tdmInfo.status = 1 -- 1 = alive
 		tdmInfo.lives = 5
 		tdmInfo.inmatch = 0
+		--tdmInfo.magicka = 0
+		tdmInfo.intmultiplier = 0
+		tdmInfo.int = Players[pid].data.attributes.Intelligence.base
+		tdmInfo.magmult = 0
 		tdmInfo.team = 0
 		tdmInfo.kills = 0
 		tdmInfo.deaths = 0
@@ -648,7 +665,138 @@ conditionMet = nil
 -- TODO: properly seperate handling for deathmatch and team deathmatch   
 -- Update player kills/deaths and team scores
 
+testDM.MagickaMultipliers = function(pid)
+	if Players[pid].data.mwTDM.magmult == 1 then
+	--if Players[pid].data.mwTDM. == 1 then
+	 --multiplier = 0
+	 --intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+
+	if Players[pid].data.character.birthsign == "wombburned" then
+		multiplier = 3
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.birthsign == "fay" then
+		multiplier = 1.5
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.birthsign == "elfborn" then
+		multiplier = 2.5
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+
+	elseif Players[pid].data.character.race == "breton" then
+		multiplier = 1.5
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.race == "breton" and Players[pid].data.character.birthsign == "wombburned" then
+		multiplier = 3.5
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.race == "breton" and Players[pid].data.character.birthsign == "fay" then
+		multiplier = 2
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.race == "breton" and Players[pid].data.character.birthsign == "elfborn" then
+		multiplier = 3
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.race == "high elf" then
+		multiplier = 2.5
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.race == "high elf" and Players[pid].data.character.birthsign == "elfborn" then
+		multiplier = 4
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.race == "high elf" and Players[pid].data.character.birthsign == "fay" then
+		multiplier = 3
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	elseif Players[pid].data.character.race == "high elf" and Players[pid].data.character.birthsign == "wombburned" then
+		multiplier = 4.5
+		intelligencetimesmultiplier = Players[pid].data.mwTDM.int * multiplier
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+
+	end
+end
+--	Players[pid].data.mwTDM.int = Players[pid].data.attributes.Intelligence.base
+	--hundred = 100
+	--tes3mp.SetIntelligenceBase(pid, hundred)
+--for high elves add such and such multiplier, and aprentices and mages and bretons and atronachs
+ --IntMultiplier = 0 --Players[pid].data.mwTDM.intmultiplier
+--[[ magbase = Players[pid].data.stats.magickaBase
+ --intbase = Players[pid].data.attributes.Intelligence.base
+ --newmagbase = intbase * IntMultiplier
+if Players[pid].data.mwTDM.magmult == 1 then
+	intbase = Players[pid].data.attributes.Intelligence.base
+	IntMultiplier = 0
+	newmagbase = intbase * IntMultiplier
+if Players[pid].data.character.race == "high elf" then
+	IntMultiplier = IntMultiplier + 1.5
+	--magbase = magbase + intbase * 1.5
+	--tes3mp.SetMagickaBase(pid, magbase)
+end
+
+if Players[pid].data.character.birthsign == "elfborn" then
+	IntMultiplier = IntMultiplier + 1.5
+	--magbase = magbase + intbase * 1.5
+	--tes3mp.SetMagickaBase(pid, magbase)
+end
+
+logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..newmagbase)]]
+--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
+--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence 240')
+--tes3mp.SetMagickaBase(pid, newmagbase)
+--end
+end
+
+testDM.AntiMagickaMultipliers = function(pid)
+	--for high elves add such and such multiplier, and aprentices and mages and bretons and atronachs
+	oldint = Players[pid].data.mwTDM.int
+	IntMultiplier = 0
+	magbase = Players[pid].data.stats.magickaBase
+	intbase = Players[pid].data.attributes.Intelligence.base
+	newmagbase = intbase * IntMultiplier
+	--if Players[pid].data.mwTDM.magmult == 1 then
+--[[if Players[pid].data.mwTDM.magmult == 1 then
+
+	if Players[pid].data.character.race == "high elf" then
+		IntMultiplier = IntMultiplier + 1.5
+		--magbase = magbase - intbase * 1.5
+		--tes3mp.SetMagickaBase(pid, magbase)
+	end
+	
+	if Players[pid].data.character.birthsign == "elfborn" then
+		IntMultiplier = IntMultiplier + 1.5
+		--magbase = magbase - intbase * 1.5
+		--tes3mp.SetMagickaBase(pid, magbase)
+	end]]
+
+	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..oldint)
+--end
+	--tes3mp.SetMagickaBase(pid, newmagbase)
+--end
+Players[pid].data.mwTDM.magmult = 0
+end
+
 testDM.ProcessDeath = function(pid)
+	tes3mp.SendMessage(pid, color.Green .. "ProcessDeath\n")
+	Players[pid].data.mwTDM.magmult = 1
+	--multiplier for certain characters who lose magicka multipliers on death.
+	testDM.MagickaMultipliers(pid)
+	--RespawnResting(pid)
+	--magicka = Players[pid].data.stats.magickaBase
+	--Players[pid].data.mwTDM.magicka = magicka
 	lives = Players[pid].data.mwTDM.lives
 	Players[pid].data.mwTDM.lives = lives - 1
 	Players[pid].data.mwTDM.status = 0
@@ -733,6 +881,7 @@ testDM.ProcessDeath = function(pid)
 	if gameMode == "tdm" then
 		teamScores[killerTeam] = teamScores[killerTeam] + scoreChange
 	end
+	
 end
 
 -- Called from local PlayerInit to reset characters for each new match
@@ -785,6 +934,7 @@ testDM.ResetCharacter = function(pid) -- may not be used currently, from origina
 	Players[pid]:LoadAttributes()
 	Players[pid]:LoadSkills()
 	Players[pid]:LoadStatsDynamic()]]
+	
 end
 
 testDM.OnTimerExpiration = function() --not sure if used any more
@@ -804,15 +954,16 @@ function HealthRegen(pid) --health regen resting similator for respawning
 end
 
 function MagickaRegen(pid) --magicka regen resting simulator for respawning
-	local var1 = Players[pid].data.stats.magickaCurrent
-	local var2 = Players[pid].data.stats.magickaBase
-	local var3 = Players[pid].data.attributes.Intelligence.base
-	local Result = var1 + (var3 * 0.15 ) * 10--[[8]]
-	local something = (Result >= var2)
-	if something then
-	    tes3mp.SetMagickaCurrent(pid, var2)
+
+	local magcurrent = Players[pid].data.stats.magickaCurrent
+	local magbase = Players[pid].data.stats.magickaBase
+	local intbase = Players[pid].data.mwTDM.int --Players[pid].data.attributes.Intelligence.base
+	local newmag = magcurrent + (intbase * 0.15 ) * 10--[[8]]
+	local morethan = (newmag >= magbase)
+	if morethan then
+	    tes3mp.SetMagickaCurrent(pid, magbase)
 	else
-	    tes3mp.SetMagickaCurrent(pid, Result)
+	    tes3mp.SetMagickaCurrent(pid, newmag)
 	end
         tes3mp.SendStatsDynamic(pid)
 end
@@ -961,12 +1112,16 @@ function PotionRemoval(pid)
 end
 
 function RespawnResting(pid)--"resting" regeneration functions.
+	--testDM.MagickaMultipliers(pid)
 	HealthRegen(pid)--"resting" regeneration functions. Could maybe make a single function that will do all this instead of using all these words?
 	if Players[pid].data.character.birthsign ~= "wombburned" then --regen magicka only if player isn't atronach
 		MagickaRegen(pid)
 	else
 	end
 	FatigueRegen(pid)
+
+	testDM.AntiMagickaMultipliers(pid)
+
 end
 
 function getPlayerItemCount(pid, itemid) --used in the potion-refilling functions
@@ -979,6 +1134,7 @@ function getPlayerItemCount(pid, itemid) --used in the potion-refilling function
 end
 
 testDM.PlayerSpawner3 = function(pid) --used in Playerinit2 for when NOT in the current match
+	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner3\n")
 	Players[pid].data.mwTDM.status = 1
 	math.random(1, 4) -- Improves RNG? LUA's random isn't great
 	math.random(1, 4) 
@@ -1005,6 +1161,8 @@ testDM.PlayerSpawner3 = function(pid) --used in Playerinit2 for when NOT in the 
 	tes3mp.SendPos(pid)
 	local birth = Players[pid].data.character.birthsign.wombburned
 	RespawnResting(pid)--"resting" regeneration functions.
+	--timerheal = tes3mp.CreateTimerEx("healtest", time.seconds(1), "i", pid)
+	--tes3mp.RestartTimer(timerheal, time.seconds(1))
 	--do the level up thing if the level progress is 10 or more. Could maybe make a function for this too?
 	if Players[pid].data.stats.levelProgress >= 10 then 
     	logicHandler.RunConsoleCommandOnPlayer(pid, 'EnableLevelUpMenu')
@@ -1019,6 +1177,7 @@ end
 
 -- determines player's spawn location
 testDM.PlayerSpawner = function(pid)
+	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner\n")
 	Players[pid].data.mwTDM.status = 1
 	math.random(1, 4) -- Improves RNG? LUA's random isn't great
 	math.random(1, 4) 
@@ -1049,6 +1208,8 @@ testDM.PlayerSpawner = function(pid)
 	tes3mp.SetRot(pid, 0, possibleSpawnLocations[randomLocationIndex][5])
 	tes3mp.SendPos(pid)]]
 	RespawnResting(pid)--"resting" regeneration functions.
+	--timerheal = tes3mp.CreateTimerEx("healtest", time.seconds(1), "i", pid)
+	--tes3mp.RestartTimer(timerheal, time.seconds(1))
 	if Players[pid].data.stats.levelProgress >= 10 then
     	logicHandler.RunConsoleCommandOnPlayer(pid, 'EnableLevelUpMenu')
 	else
@@ -1056,11 +1217,13 @@ testDM.PlayerSpawner = function(pid)
 	--PotionRemoval(pid)
 end
 
+
 	--LastSpawn = []
 	lastspawnlocation = 0
 	spawnlocation = 1
 	spawnlocationthing = 0
 testDM.PlayerSpawner2 = function(pid) --Used to spawn the player in the fighting area. Used in multiple functions.
+	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner2\n")
 	local LastSpawn = {}
 	Players[pid].data.mwTDM.status = 1
 	--math.random(1, 4) -- Improves RNG? LUA's random isn't great
@@ -1109,6 +1272,9 @@ testDM.PlayerSpawner2 = function(pid) --Used to spawn the player in the fighting
 	end]]
 	--LastSpawn[pid] = 
 	RespawnResting(pid)--"resting" regeneration functions.
+	--timerheal = tes3mp.CreateTimerEx("healtest", time.seconds(1), "i", pid)
+	--tes3mp.RestartTimer(timerheal, time.seconds(1))
+
 	--refills potions
 	--PotionRefill(pid)
 	Players[pid].data.mwTDM.gm = 0
@@ -1143,6 +1309,43 @@ testDM.AdminEndMatch = function(pid)
 	end
 end
 
+testDM.statuscheck = function(pid)
+
+	status = Players[pid].data.mwTDM.status
+	tes3mp.SendMessage(pid, color.Green ..status.. "\n")
+
+
+end
+
+testDM.magmultstatuscheck = function(pid)
+
+	magmult = Players[pid].data.mwTDM.magmult
+	tes3mp.SendMessage(pid, color.Green ..magmult.. "\n")
+
+
+end
+
+testDM.healtest = function(pid)
+
+	RespawnResting(pid)
+
+
+end
+
+testDM.magmulttest = function(pid)
+
+	testDM.MagickaMultipliers(pid)
+
+
+end
+
+testDM.resurrectcheck = function(pid)
+
+	tes3mp.Resurrect(pid, 0)
+
+
+end
+
 testDM.lastspawn = function(pid) -- not sure what this is. seems to be a function from the original version, or no, it was made to try to figure out how to do spawn locations, and may not be needed at the moment.
 	tes3mp.SendMessage(pid, color.Red .. "Lastpawn is " ..spawnlocation.. "\n")
 end
@@ -1152,6 +1355,11 @@ customEventHooks.registerValidator("OnPlayerDeath", function(eventStatus, pid)
 	-- this makes it so that default resurrect for player does not happen but custom handler for player death does get executed
 	return customEventHooks.makeEventStatus(false,true)
 end)
+
+--[[customEventHooks.registerValidator("ProcessDeath", function(eventStatus, pid)
+	-- this makes it so that default resurrect for player does not happen but custom handler for player death does get executed
+	return customEventHooks.makeEventStatus(false,true)
+end)]]
 
 --customEventHooks.triggerHandlers("OnDeathTimeExpiration", eventStatus, {pid})
 customEventHooks.registerValidator("OnDeathTimeExpiration", function(eventStatus, pid)
@@ -1206,10 +1414,15 @@ customEventHooks.registerHandler("OnPlayerAuthentified", function(eventstatus, p
 	end
 end)
 
+customCommandHooks.registerCommand("magmult", testDM.magmultstatuscheck)
+customCommandHooks.registerCommand("magtest", testDM.magmulttest)
+customCommandHooks.registerCommand("resurrect", testDM.resurrectcheck)
+customCommandHooks.registerCommand("status", testDM.statuscheck)
 customCommandHooks.registerCommand("lastspawn", testDM.lastspawn)
 customCommandHooks.registerCommand("score", testDM.ShowScore)
 customCommandHooks.registerCommand("forceend", testDM.AdminEndMatch)
 customCommandHooks.registerCommand("end", testDM.EndMatch)
 customCommandHooks.registerCommand("death", testDM.ProcessDeath)
+
 
 return testDM
