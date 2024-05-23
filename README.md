@@ -1,0 +1,1 @@
+You put in the customScripts.lua file require("custom/testtimercleanerhopefully4") and put all the script files into the custom folder. and you put the .esp file into your morrowind data files folder and then put {"dwemerruintesttogether.ESP": ["0xD4EA8A0B"]} into the requiredDataFiles.json file in the server/data folder.
