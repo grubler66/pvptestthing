@@ -49,7 +49,7 @@ lastScoringTeam = nil
 
 timer44 = tes3mp.CreateTimer("Three", time.seconds(5))
 timer22 = tes3mp.CreateTimer("Reset", time.seconds(5))
-timer23 = tes3mp.CreateTimer("Reset2", time.seconds(5))
+timer23 = tes3mp.CreateTimer("Reset2", time.seconds(60))
 timer33 = tes3mp.CreateTimer("warning1", time.minutes(4))  -- "1 Minute Left until fight starts!""
 timer4 = tes3mp.CreateTimer("Four", time.minutes(7))
 timer1 = tes3mp.CreateTimer("One", time.minutes(3))
@@ -144,7 +144,7 @@ function One()
 				tes3mp.SendMessage(pid, color.Red .. "5:00 \n", false)
 		end
 	end
-	tes3mp.RestartTimer(timer23, time.seconds(5))
+	tes3mp.RestartTimer(timer23, time.seconds(60))
 end
 
 function Three()
@@ -1111,6 +1111,18 @@ function PotionRemoval(pid)
 	end
 end
 
+-- SetAttributeDamage possibly used for potentially healing damaged attributes for the respawn healing functions...
+function AttributeHealing(pid)
+	damage = 0
+
+	luck = Players[pid].data.attributes.Luck.damage
+
+	Players[pid].data.attributes.Luck.damage = 0
+
+--	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLuck ' ..luck)
+	--tes3mp.SetAttributeDamage(pid, Luck, damage) --dunno how to use something like this..
+	tes3mp.SendStatsDynamic(pid)
+end
 function RespawnResting(pid)--"resting" regeneration functions.
 	--testDM.MagickaMultipliers(pid)
 	HealthRegen(pid)--"resting" regeneration functions. Could maybe make a single function that will do all this instead of using all these words?
@@ -1121,7 +1133,7 @@ function RespawnResting(pid)--"resting" regeneration functions.
 	FatigueRegen(pid)
 
 	testDM.AntiMagickaMultipliers(pid)
-
+	--AttributeHealing(pid)
 end
 
 function getPlayerItemCount(pid, itemid) --used in the potion-refilling functions
@@ -1346,6 +1358,13 @@ testDM.resurrectcheck = function(pid)
 
 end
 
+testDM.oops = function(pid)
+
+	testDM.PlayerInit(pid)
+
+
+end
+
 testDM.lastspawn = function(pid) -- not sure what this is. seems to be a function from the original version, or no, it was made to try to figure out how to do spawn locations, and may not be needed at the moment.
 	tes3mp.SendMessage(pid, color.Red .. "Lastpawn is " ..spawnlocation.. "\n")
 end
@@ -1414,6 +1433,7 @@ customEventHooks.registerHandler("OnPlayerAuthentified", function(eventstatus, p
 	end
 end)
 
+customCommandHooks.registerCommand("oops", testDM.oops)
 customCommandHooks.registerCommand("magmult", testDM.magmultstatuscheck)
 customCommandHooks.registerCommand("magtest", testDM.magmulttest)
 customCommandHooks.registerCommand("resurrect", testDM.resurrectcheck)
