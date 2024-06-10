@@ -18,7 +18,7 @@ matchselectionmethod = testDMConfig.matchSelectionMethod
 matchRotationIndex = 1
 
 -- holds the data about the current match
-currentMatch = testDMMatchSettings.balmora_dm
+currentMatch = testDMMatchSettings.fort_dm
 
 -- used to hold data about the next match
 nextMatch = nil
@@ -48,8 +48,8 @@ lastScoringTeam = nil
 
 
 timer44 = tes3mp.CreateTimer("Three", time.seconds(5))
-timer22 = tes3mp.CreateTimer("Reset", time.seconds(5))
-timer23 = tes3mp.CreateTimer("Reset2", time.seconds(60))
+timer22 = tes3mp.CreateTimer("Reset", time.seconds(1))
+timer23 = tes3mp.CreateTimer("Reset2", time.seconds(180))
 timer33 = tes3mp.CreateTimer("warning1", time.minutes(4))  -- "1 Minute Left until fight starts!""
 timer4 = tes3mp.CreateTimer("Four", time.minutes(7))
 timer1 = tes3mp.CreateTimer("One", time.minutes(3))
@@ -63,6 +63,7 @@ testDM.MatchInit = function() -- Starts new match, resets matchId, controls map 
 	if nextMatch ~= nil then
 		currentMatch = nextMatch
 	end
+	
 	-- Handle match data
 	-- Load default settings
 	matchSettings = testDMConfig.defaultSettings
@@ -144,7 +145,7 @@ function One()
 				tes3mp.SendMessage(pid, color.Red .. "5:00 \n", false)
 		end
 	end
-	tes3mp.RestartTimer(timer23, time.seconds(60))
+	--tes3mp.RestartTimer(timer23, time.seconds(180))
 end
 
 function Three()
@@ -242,8 +243,8 @@ function Reset(pid)
 	local pid, p = next(Players)
 	if p ~= nil and p:IsLoggedIn() then
 logicHandler.ResetCell(pid, "-6, -1")
---logicHandler.ResetCell(pid, "Pelagiad, Fort Pelagiad")
---logicHandler.ResetCell(pid, "Arkngthand, Weepingbell Hall")
+logicHandler.ResetCell(pid, "Pelagiad, Fort Pelagiad")
+logicHandler.ResetCell(pid, "Arkngthand, Deep Ore Passage")
 --logicHandler.ResetCell(pid, "Mzahnch")
 --logicHandler.ResetCell(pid, "Galom Daeus, Entry")
 --logicHandler.ResetCell(pid, "Dagoth Ur, Outer Facility")
@@ -343,7 +344,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 		    end
 	    end
 	    testDM.MatchInit()
-		tes3mp.RestartTimer(timer22, time.seconds(5))
+		tes3mp.RestartTimer(timer22, time.seconds(1))
 --[[		local pid, p = next(Players)
 			if p ~= nil and p:IsLoggedIn() then
 		logicHandler.ResetCell(pid, "Arkngthand, Weepingbell Hall")
@@ -1166,9 +1167,9 @@ testDM.PlayerSpawner3 = function(pid) --used in Playerinit2 for when NOT in the 
 			end
 		end
 	end
-	tes3mp.SetCell(pid, "Pelagiad, Fort Pelagiad")
+	tes3mp.SetCell(pid, "Pelagiad, North Wall")
 	tes3mp.SendCell(pid)
-	tes3mp.SetPos(pid, 2233.9094238281, 362.85528564453, 129)
+	tes3mp.SetPos(pid, 1025.232, 781.309, -1657.201)
 	tes3mp.SetRot(pid, 0, -2.479984998703)
 	tes3mp.SendPos(pid)
 	local birth = Players[pid].data.character.birthsign.wombburned
@@ -1209,9 +1210,9 @@ testDM.PlayerSpawner = function(pid)
 			end
 		end
 	end
-	tes3mp.SetCell(pid, "Pelagiad, Fort Pelagiad")
+	tes3mp.SetCell(pid, "Pelagiad, North Wall")
 	tes3mp.SendCell(pid)
-	tes3mp.SetPos(pid, 2233.9094238281, 362.85528564453, 129)
+	tes3mp.SetPos(pid, 1025.232, 781.309, -1657.201)
 	tes3mp.SetRot(pid, 0, -2.479984998703)
 	tes3mp.SendPos(pid)
 	--[[tes3mp.SetCell(pid, possibleSpawnLocations[randomLocationIndex][1])
@@ -1299,7 +1300,7 @@ testDM.EndMatch = function()
 	--voteTimer = tes3mp.CreateTimer("testDM.MatchInit", time.seconds(5))
 	--tes3mp.StartTimer(voteTimer)
 	-- determine which match will be played next round
-	if testDMConfig.matchSelectionMethod == 0 then
+--[[	if testDMConfig.matchSelectionMethod == 0 then
 		-- TODO: find a way to remove the possibility of repeating the just-played match
 		randomMatchIndex = math.random(1, #testDMConfig.matchList)
 		nextMatch = testDMConfig.matchList[randomMatchIndex]
@@ -1311,7 +1312,7 @@ testDM.EndMatch = function()
 		end
 		local nextMatchIndex = testDMConfig.matchList[matchRotationIndex]
 		nextMatch = testDMMatchSettings[nextMatchIndex]
-	end
+	end]]
 	EndIt()
 end
 
