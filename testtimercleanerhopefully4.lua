@@ -1119,12 +1119,26 @@ end
 -- SetAttributeDamage possibly used for potentially healing damaged attributes for the respawn healing functions...
 function AttributeHealing(pid)
 	--damage = 0
-Luck = tes3mp.GetAttributeId("Luck")
+	Strength = tes3mp.GetAttributeId("Strength")
+	Intelligence = tes3mp.GetAttributeId("Intelligence")
+	Willpower = tes3mp.GetAttributeId("Willpower")
+	Agility = tes3mp.GetAttributeId("Agility")
+	Speed = tes3mp.GetAttributeId("Speed")
+	Endurance = tes3mp.GetAttributeId("Endurance")
+	Personality = tes3mp.GetAttributeId("Personality")
+	Luck = tes3mp.GetAttributeId("Luck")
 	--luck = Players[pid].data.attributes.Luck.damage
 	--tes3mp.GetAttributeId(Luck)
 	--Players[pid].data.attributes.Luck.damage = 0
+	tes3mp.SetAttributeDamage(pid, Strength, 0)
+	tes3mp.SetAttributeDamage(pid, Intelligence, 0)
+	tes3mp.SetAttributeDamage(pid, Willpower, 0)
+	tes3mp.SetAttributeDamage(pid, Agility, 0)
+	tes3mp.SetAttributeDamage(pid, Speed, 0)
+	tes3mp.SetAttributeDamage(pid, Endurance, 0)
+	tes3mp.SetAttributeDamage(pid, Personality, 0)
 	tes3mp.SetAttributeDamage(pid, Luck, 0)
-	--tes3mp.SendAttributes(pid)
+	tes3mp.SendAttributes(pid)
    --logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLuck ' ..luck)
 	--tes3mp.SetAttributeDamage(pid, Luck, damage) --dunno how to use something like this..
 	tes3mp.SendAttributes(pid)
