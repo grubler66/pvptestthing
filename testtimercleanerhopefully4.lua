@@ -440,6 +440,10 @@ function PlayerIniti(pid) --Used for teleportation into the round.
 	    if Players[pid].data.mwTDM.matchId == matchId then
 	    	tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
 		    testDM.PlayerSpawner2(pid)
+
+			--reset player's mark location to nothing
+			Players[pid].data.miscellaneous.markLocation.cell = ""
+		--	tes3mp.SendAttributes(pid)
 	    else -- Player's latest match ID doesn't equal that of current match
 		    --logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25')
 		    Players[pid].data.mwTDM.lives = 5
@@ -1114,15 +1118,16 @@ end
 
 -- SetAttributeDamage possibly used for potentially healing damaged attributes for the respawn healing functions...
 function AttributeHealing(pid)
-	damage = 0
-
-	luck = Players[pid].data.attributes.Luck.damage
-
-	Players[pid].data.attributes.Luck.damage = 0
-
---	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLuck ' ..luck)
+	--damage = 0
+Luck = tes3mp.GetAttributeId("Luck")
+	--luck = Players[pid].data.attributes.Luck.damage
+	--tes3mp.GetAttributeId(Luck)
+	--Players[pid].data.attributes.Luck.damage = 0
+	tes3mp.SetAttributeDamage(pid, Luck, 0)
+	--tes3mp.SendAttributes(pid)
+   --logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLuck ' ..luck)
 	--tes3mp.SetAttributeDamage(pid, Luck, damage) --dunno how to use something like this..
-	tes3mp.SendStatsDynamic(pid)
+	tes3mp.SendAttributes(pid)
 end
 function RespawnResting(pid)--"resting" regeneration functions.
 	--testDM.MagickaMultipliers(pid)
@@ -1134,7 +1139,7 @@ function RespawnResting(pid)--"resting" regeneration functions.
 	FatigueRegen(pid)
 
 	testDM.AntiMagickaMultipliers(pid)
-	--AttributeHealing(pid)
+	AttributeHealing(pid)
 end
 
 function getPlayerItemCount(pid, itemid) --used in the potion-refilling functions
