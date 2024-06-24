@@ -242,6 +242,9 @@ end
 function Reset(pid)
 	local pid, p = next(Players)
 	if p ~= nil and p:IsLoggedIn() then
+
+		ResetMarkLocation(pid)
+
 logicHandler.ResetCell(pid, "-6, -1")
 logicHandler.ResetCell(pid, "Pelagiad, Fort Pelagiad")
 logicHandler.ResetCell(pid, "Arkngthand, Deep Ore Passage")
@@ -250,7 +253,7 @@ logicHandler.ResetCell(pid, "Arkngthand, Deep Ore Passage")
 --logicHandler.ResetCell(pid, "Dagoth Ur, Outer Facility")
 --logicHandler.ResetCell(pid, "Nchardumz")
 --logicHandler.ResetCell(pid, "Nchardumz Lower Level")
-	
+--tes3mp.SendMarkLocation(pid)
 end
 end
 
@@ -358,6 +361,8 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 end
 
 testDM.PlayerInit2 = function(pid) --used in matchinit
+	if Players[pid] ~= nil then
+--		tes3mp.SendMarkLocation(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerInit2\n")
 	tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
@@ -367,11 +372,17 @@ testDM.PlayerInit2 = function(pid) --used in matchinit
 		tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
 		tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
 		testDM.PlayerSpawner(pid)
+--		Players[pid].data.miscellaneous.markLocation.cell = ""
+--		tes3mp.SetMarkCell(pid, "")
+--		tes3mp.SetMarkPos(pid, 0, 0, 0)
+--		tes3mp.SetMarkRot(pid, 0, 0)
+--		tes3mp.SendMarkLocation(pid)
 	else -- Player's latest match ID doesn't equal that of current match
 		--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25') -- maybe this was where we had the 25 gold for all people? even if they didn't survive?
 		Players[pid].data.mwTDM.inmatch = 0
 		tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
 		testDM.PlayerSpawner3(pid)
+
 		for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams
 			if p ~= nil and p:IsLoggedIn() then
 			end
@@ -392,8 +403,10 @@ testDM.PlayerInit2 = function(pid) --used in matchinit
 end
 
 testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
-	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
+--	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
 	if Players[pid] ~= nil then
+		tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
+--		tes3mp.SendMarkLocation(pid)
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	    testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
 	    tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
@@ -409,6 +422,12 @@ testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
 		    tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
 		    Players[pid].data.mwTDM.lives = 5
 		    testDM.PlayerSpawner(pid)
+--			Players[pid].data.miscellaneous.markLocation.cell = ""
+--			tes3mp.SendMarkLocation(pid)
+--			tes3mp.SetMarkCell(pid, "")
+--			tes3mp.SetMarkPos(pid, 0, 0, 0)
+--			tes3mp.SetMarkRot(pid, 0, 0)
+--			tes3mp.SendMarkLocation(pid)
 		    for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams	
 			if p ~= nil and p:IsLoggedIn() then
 			end
@@ -433,6 +452,7 @@ end
 function PlayerIniti(pid) --Used for teleportation into the round.
 	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti\n")
 	if Players[pid] ~= nil then
+--		tes3mp.SendMarkLocation(pid)
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	    testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
 	    tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
@@ -442,7 +462,9 @@ function PlayerIniti(pid) --Used for teleportation into the round.
 		    testDM.PlayerSpawner2(pid)
 
 			--reset player's mark location to nothing
-			Players[pid].data.miscellaneous.markLocation.cell = ""
+--			tes3mp.SetMarkCell(pid, "")
+--			Players[pid].data.miscellaneous.markLocation.cell = ""
+--			tes3mp.SendMarkLocation(pid)
 		--	tes3mp.SendAttributes(pid)
 	    else -- Player's latest match ID doesn't equal that of current match
 		    --logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25')
@@ -468,9 +490,13 @@ function PlayerIniti(pid) --Used for teleportation into the round.
     else
     end
 end
+end
+
 
 -- make player ready to be spawned in game
 testDM.PlayerInit = function(pid)
+	if Players[pid] ~= nil then
+--		tes3mp.SendMarkLocation(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerInit\n")
 	tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
@@ -500,6 +526,7 @@ testDM.PlayerInit = function(pid)
 			    testDM.TeamHandler(pid)
 		end
 	end
+end
 end
 
 -- display the state of the game appropriately for each game mode
@@ -1246,6 +1273,10 @@ testDM.PlayerSpawner = function(pid)
     	logicHandler.RunConsoleCommandOnPlayer(pid, 'EnableLevelUpMenu')
 	else
 	end
+--	tes3mp.SetMarkCell(pid, "")
+--	tes3mp.SetMarkPos(pid, 0, 0, 0)
+--	tes3mp.SetMarkRot(pid, 0, 0)
+--	tes3mp.SendMarkLocation(pid)
 	--PotionRemoval(pid)
 end
 
@@ -1311,6 +1342,20 @@ testDM.PlayerSpawner2 = function(pid) --Used to spawn the player in the fighting
 	--PotionRefill(pid)
 	Players[pid].data.mwTDM.gm = 0
 end
+
+function ResetMarkLocation(pid)
+--[[	tes3mp.SetCell(pid, "Pelagiad, North Wall")
+	tes3mp.SendCell(pid)
+	tes3mp.SetPos(pid, 1025.232, 781.309, -1657.201)
+	tes3mp.SetRot(pid, 0, -2.479984998703)]]
+
+	tes3mp.SetMarkCell(pid, "Pelagiad, North Wall")
+	tes3mp.SetMarkPos(pid, 1025.232, 781.309, -1657.201)
+	tes3mp.SetMarkRot(pid, 0, -2.479984998703)
+	tes3mp.SendMarkLocation(pid)
+
+end
+
 
 -- this starts proces of determining variables for the next match
 -- TODO: implement voting mechanic (for admin and for players)
