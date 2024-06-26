@@ -100,6 +100,7 @@ testDM.MatchInit = function() -- Starts new match, resets matchId, controls map 
 			Players[pid].data.mwTDM.matchId = matchId -- Set player's match ID to current match ID
 			Players[pid].data.mwTDM.lives = 4
 			Players[pid].data.mwTDM.inmatch = 1 
+			Players[pid].data.mwTDM.inarena = 0
 				testDM.PlayerInit2(p.pid)
 				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 10 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 8 minutes\n" .. color.Red .. "Fight starts in 3 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
 		end
@@ -135,7 +136,7 @@ function warning1()
 	tes3mp.StartTimer(timer9)
 	local timer10 = tes3mp.CreateTimer("Ten", time.seconds(58))
 	tes3mp.StartTimer(timer10)
-	local timer11 = tes3mp.CreateTimer("Eleven", time.seconds(59))
+	local timer11 = tes3mp.CreateTimer("Eleven2", time.seconds(59))
 	tes3mp.StartTimer(timer11)
 end
 
@@ -157,7 +158,7 @@ function Three()
 end
 
 function Four()
-	timer6 = tes3mp.CreateTimer("Six", time.seconds(50))
+	timer6 = tes3mp.CreateTimer("Six2", time.seconds(50))
 	tes3mp.StartTimer(timer6)
 	timer7 = tes3mp.CreateTimer("Seven", time.seconds(55))
 	tes3mp.StartTimer(timer7)
@@ -180,6 +181,14 @@ function Six()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
 				tes3mp.SendMessage(pid, color.Red .. ":10 \n", false)
+		end
+	end
+end
+
+function Six2()
+	for pid, p in pairs(Players) do -- Iterate through all players 
+		if p ~= nil and p:IsLoggedIn() then
+				tes3mp.SendMessage(pid, color.Red .. ":10 \n" .. color.Pink .. "Stop talking to NPCs or you'll crash! \n", false)
 		end
 	end
 end
@@ -222,6 +231,18 @@ function Eleven()
 				tes3mp.SendMessage(pid, color.Red .. ":01 \n", false)
 		end
 	end
+end
+
+function Eleven2(pid)
+	for pid, p in pairs(Players) do -- Iterate through all players 
+		if p ~= nil and p:IsLoggedIn() then
+		tes3mp.SendMessage(pid, color.Red .. ":01 \n", false)
+		end
+		if p ~= nil and p:IsLoggedIn() and Players[pid].data.mwTDM ~= nil and Players[pid].data.mwTDM.inmatch == 1 then
+			Players[pid].data.mwTDM.inarena = 1
+		end
+	end
+
 end
 
 function Reset2(pid)
@@ -358,59 +379,48 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 	    end
 	    testDM.MatchInit()
 		tes3mp.RestartTimer(timer22, time.seconds(1))
---[[		local pid, p = next(Players)
-			if p ~= nil and p:IsLoggedIn() then
-		logicHandler.ResetCell(pid, "Arkngthand, Weepingbell Hall")
-		logicHandler.ResetCell(pid, "Mzahnch")
-		logicHandler.ResetCell(pid, "Galom Daeus, Entry")
-		logicHandler.ResetCell(pid, "Dagoth Ur, Outer Facility")
-		logicHandler.ResetCell(pid, "Nchardumz")
-		logicHandler.ResetCell(pid, "Nchardumz Lower Level")
-			
-		end]]
+
 end
 
 testDM.PlayerInit2 = function(pid) --used in matchinit
 	if Players[pid] ~= nil then
---		tes3mp.SendMarkLocation(pid)
-	tes3mp.SendMessage(pid, color.Green .. "PlayerInit2\n")
-	tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
-	testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
-	tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
+
+		tes3mp.SendMessage(pid, color.Green .. "PlayerInit2\n")
+		tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
+		testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
+		tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
 	-- Check player's last matchId to determine whether to reset their character
-	if Players[pid].data.mwTDM.matchId == matchId then
-		tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
-		tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
-		testDM.PlayerSpawner(pid)
---		Players[pid].data.miscellaneous.markLocation.cell = ""
---		tes3mp.SetMarkCell(pid, "")
---		tes3mp.SetMarkPos(pid, 0, 0, 0)
---		tes3mp.SetMarkRot(pid, 0, 0)
---		tes3mp.SendMarkLocation(pid)
-	else -- Player's latest match ID doesn't equal that of current match
+		if Players[pid].data.mwTDM.matchId == matchId then
+			tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
+			tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
+			testDM.PlayerSpawner(pid)
+
+			else -- Player's latest match ID doesn't equal that of current match
 		--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25') -- maybe this was where we had the 25 gold for all people? even if they didn't survive?
 		Players[pid].data.mwTDM.inmatch = 0
 		tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
 		testDM.PlayerSpawner3(pid)
-
-		for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams
-			if p ~= nil and p:IsLoggedIn() then
-			end
+			
+			--[[	for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams
+					if p ~= nil and p:IsLoggedIn() then
+				end]]
 		end
-		if Players[pid].data.mwTDM.matchId == nil then
+
+		--[[if Players[pid].data.mwTDM.matchId == nil then
 			-- New character so no need to wipe it
-		else -- Character was created prior to current match so we reset it
+			else -- Character was created prior to current match so we reset it
 			tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is different -- Calling ResetCharacter(). ++++")
 			--testDM.ResetCharacter(pid) -- Reset character
-		end
+		end]]
 		--tes3mp.LogMessage(2, "++++ --PlayerInit: Assigning new matchId to player. ++++")
 		--Players[pid].data.mwTDM.matchId = matchId -- Set player's match ID to current match ID
 		-- handle team assigment only for the first time in a match (so that team-sorting logic does not happen at every respawn)
-		if gameMode == "tdm" or gameMode == "ctf" then
+		--[[if gameMode == "tdm" or gameMode == "ctf" then
 			testDM.TeamHandler(pid)
-		end
+		end]]
 	end
 end
+
 
 testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
 --	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
@@ -421,7 +431,13 @@ testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
 	    testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
 	    tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
 	    -- Check player's last matchId to determine whether to reset their character
-	    if Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1 then
+	    if Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1  and Players[pid].data.mwTDM.inarena == 0 then
+		    Players[pid].data.mwTDM.inmatch = 1
+		    tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
+		    tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
+		    testDM.PlayerSpawner(pid)
+		elseif Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1 and Players[pid].data.mwTDM.inarena == 1 then
+
 		    Players[pid].data.mwTDM.inmatch = 1
 		    tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
 		    tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
@@ -432,32 +448,26 @@ testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
 		    tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
 		    Players[pid].data.mwTDM.lives = 5
 		    testDM.PlayerSpawner(pid)
---			Players[pid].data.miscellaneous.markLocation.cell = ""
---			tes3mp.SendMarkLocation(pid)
---			tes3mp.SetMarkCell(pid, "")
---			tes3mp.SetMarkPos(pid, 0, 0, 0)
---			tes3mp.SetMarkRot(pid, 0, 0)
---			tes3mp.SendMarkLocation(pid)
-		    for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams	
+
+		    --[[for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams	
 			if p ~= nil and p:IsLoggedIn() then
-			end
-		end
-		if Players[pid].data.mwTDM.matchId == nil then
+			end]]
+	end
+
+--[[	if Players[pid].data.mwTDM.matchId == nil then
 			-- New character so no need to wipe it
 		else -- Character was created prior to current match so we reset it
 			tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is different -- Calling ResetCharacter(). ++++")
 			--testDM.ResetCharacter(pid) -- Reset character
-		end
+	end
         --	tes3mp.LogMessage(2, "++++ --PlayerInit: Assigning new matchId to player. ++++")
         --	Players[pid].data.mwTDM.matchId = matchId -- Set player's match ID to current match ID
 		-- handle team assigment only for the first time in a match (so that team-sorting logic does not happen at every respawn)
-		if gameMode == "tdm" or gameMode == "ctf" then
+	if gameMode == "tdm" or gameMode == "ctf" then
 			testDM.TeamHandler(pid)
-		end
-	end
-    else
-    end
+	end]]
 end
+
 
 function PlayerIniti(pid) --Used for teleportation into the round.
 	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti\n")
@@ -512,9 +522,13 @@ testDM.PlayerInit = function(pid)
 	testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
 	tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
 	-- Check player's last matchId to determine whether to reset their character (if the player came from the same match)
-	if Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1 then
+	if Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1 and Players[pid].data.mwTDM.inarena == 0 then
+		tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
+		testDM.PlayerSpawner(pid)
+	elseif Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1 and Players[pid].data.mwTDM.inarena == 1 then
 		tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
 		testDM.PlayerSpawner2(pid)
+
 	else -- Player's latest match ID doesn't equal that of current match (if the player came from another match)
 		--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 150')
 		Players[pid].data.mwTDM.lives = 5
@@ -689,6 +703,7 @@ testDM.JSONCheck = function(pid)
 		tdmInfo.intmultiplier = 0
 		tdmInfo.int = Players[pid].data.attributes.Intelligence.base
 		tdmInfo.magmult = 0
+		tdmInfo.inarena = 0
 		tdmInfo.team = 0
 		tdmInfo.kills = 0
 		tdmInfo.deaths = 0
