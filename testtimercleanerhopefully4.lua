@@ -123,7 +123,7 @@ end
 function warning1()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "1:00 \n", false)
+				tes3mp.SendMessage(pid, color.Red .. "1:00 Pre-Game Time \n", false)
 		end
 	end
 	local timer6 = tes3mp.CreateTimer("Six", time.seconds(50))
@@ -143,7 +143,7 @@ end
 function One()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "5:00 \n", false)
+				tes3mp.SendMessage(pid, color.Red .. "5:00 Round Start \n", false)
 		end
 	end
 	--tes3mp.RestartTimer(timer23, time.seconds(180))
@@ -172,7 +172,7 @@ function Four()
 	tes3mp.StartTimer(timer11)
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
-				tes3mp.SendMessage(pid, color.Red .. "1:00 \n", false)
+				tes3mp.SendMessage(pid, color.Red .. "1:00 Round Time \n", false)
 		end
 	end
 end
@@ -307,7 +307,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 		if p ~= nil and p:IsLoggedIn() and Players[pid].data.mwTDM ~= nil then
 	    local nameon = Players[pid].data.login.name
 	    local lifenumber = Players[pid].data.mwTDM.lives
-        if lifenumber == bestlifenumber and numberofbestlifepeople > 1 and Players[pid].data.mwTDM.inmatch == 1 then
+        if lifenumber == bestlifenumber and numberofbestlifepeople > 1 and Players[pid].data.mwTDM.inarena == 1 then
             if Players[pid].data.mwTDM.lives == bestlifenumber then
 			    --numberofplayerstied = numberofplayerstied + 1
 			    local amount = math.floor(50 / numberofbestlifepeople)
@@ -317,7 +317,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
                 tes3mp.SendMessage(pid, color.Yellow .. nameon .. " has tied at " .. bestlifenumber .. " lives!\n")
 		    end
         end
-        elseif lifenumber == bestlifenumber and numberofbestlifepeople == 1 and Players[pid].data.mwTDM.inmatch == 1 then
+        elseif lifenumber == bestlifenumber and numberofbestlifepeople == 1 and Players[pid].data.mwTDM.inarena == 1 then
                 --local nameon = Players[pid].data.login.name
 		        logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 50')
             for pid, p in pairs(Players) do
@@ -349,7 +349,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 	    for pid, p in pairs(Players) do
 			if p ~= nil and p:IsLoggedIn() and Players[pid].data.mwTDM ~= nil then
 		        --Players[pid].data.mwTDM.lives
-		    if Players[pid].data.mwTDM.inmatch == 1 then
+		    if Players[pid].data.mwTDM.inarena == 1 then
 		        amount = 10 * Players[pid].data.mwTDM.lives
 		        logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" amount')
 		    end
@@ -358,7 +358,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 		for pid, p in pairs(Players) do
 			if p ~= nil and p:IsLoggedIn() and Players[pid].data.mwTDM ~= nil then
 		    local Gold = { refId = "gold_001", count = 25, charge = -1}
-		    if Players[pid].data.mwTDM.status == 1 and Players[pid].data.mwTDM.inmatch == 1 then
+		    if Players[pid].data.mwTDM.status == 1 and Players[pid].data.mwTDM.inarena == 1 then
 			    --table.insert(Players[pid].data.inventory, Gold)
 			    logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 50')
 			    local nameon = Players[pid].data.login.name
