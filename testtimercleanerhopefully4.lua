@@ -264,7 +264,7 @@ function Reset(pid)
 	local pid, p = next(Players)
 	if p ~= nil and p:IsLoggedIn() then
 
-		ResetMarkLocation(pid)
+--		ResetMarkLocation(pid)
 
 logicHandler.ResetCell(pid, "-6, -1")
 logicHandler.ResetCell(pid, "Pelagiad, Fort Pelagiad")
@@ -1252,6 +1252,7 @@ testDM.PlayerSpawner3 = function(pid) --used in Playerinit2 for when NOT in the 
     	logicHandler.RunConsoleCommandOnPlayer(pid, 'EnableLevelUpMenu')
 	else
 	end
+	ResetMarkLocation(pid)
 	--PotionRemoval(pid)
 end
 
@@ -1298,6 +1299,7 @@ testDM.PlayerSpawner = function(pid)
     	logicHandler.RunConsoleCommandOnPlayer(pid, 'EnableLevelUpMenu')
 	else
 	end
+	ResetMarkLocation(pid)
 --	tes3mp.SetMarkCell(pid, "")
 --	tes3mp.SetMarkPos(pid, 0, 0, 0)
 --	tes3mp.SetMarkRot(pid, 0, 0)
@@ -1362,7 +1364,7 @@ testDM.PlayerSpawner2 = function(pid) --Used to spawn the player in the fighting
 	RespawnResting(pid)--"resting" regeneration functions.
 	--timerheal = tes3mp.CreateTimerEx("healtest", time.seconds(1), "i", pid)
 	--tes3mp.RestartTimer(timerheal, time.seconds(1))
-
+	ResetMarkLocation(pid)
 	--refills potions
 	--PotionRefill(pid)
 	Players[pid].data.mwTDM.gm = 0
@@ -1373,11 +1375,23 @@ function ResetMarkLocation(pid)
 	tes3mp.SendCell(pid)
 	tes3mp.SetPos(pid, 1025.232, 781.309, -1657.201)
 	tes3mp.SetRot(pid, 0, -2.479984998703)]]
+cell = tes3mp.GetCell(pid)
+posX = tes3mp.GetPosX(pid)
+posY = tes3mp.GetPosY(pid)
+posZ = tes3mp.GetPosZ(pid)
+rotX = tes3mp.GetRotX(pid)
+rotZ = tes3mp.GetRotZ(pid)
 
-	tes3mp.SetMarkCell(pid, "Pelagiad, North Wall")
+
+tes3mp.SetMarkCell(pid, cell)
+tes3mp.SetMarkPos(pid, posX, posY, posZ)
+tes3mp.SetMarkRot(pid, rotX, rotZ)
+tes3mp.SendMarkLocation(pid)
+
+--[[	tes3mp.SetMarkCell(pid, "Pelagiad, North Wall")
 	tes3mp.SetMarkPos(pid, 1025.232, 781.309, -1657.201)
 	tes3mp.SetMarkRot(pid, 0, -2.479984998703)
-	tes3mp.SendMarkLocation(pid)
+	tes3mp.SendMarkLocation(pid)]]
 
 end
 
