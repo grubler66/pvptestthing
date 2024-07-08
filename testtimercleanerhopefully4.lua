@@ -383,6 +383,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 end
 
 testDM.PlayerInit2 = function(pid) --used in matchinit
+--	testDM.AntiMagickaMultipliers(pid)
 	if Players[pid] ~= nil then
 
 		tes3mp.SendMessage(pid, color.Green .. "PlayerInit2\n")
@@ -423,6 +424,7 @@ end
 
 
 testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
+--	testDM.AntiMagickaMultipliers(pid)
 --	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
 	if Players[pid] ~= nil then
 		tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
@@ -470,6 +472,7 @@ end
 
 
 function PlayerIniti(pid) --Used for teleportation into the round.
+--	testDM.AntiMagickaMultipliers(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti\n")
 	if Players[pid] ~= nil then
 --		tes3mp.SendMarkLocation(pid)
@@ -515,6 +518,7 @@ end
 
 -- make player ready to be spawned in game
 testDM.PlayerInit = function(pid)
+--	testDM.AntiMagickaMultipliers(pid)
 	if Players[pid] ~= nil then
 --		tes3mp.SendMarkLocation(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerInit\n")
@@ -723,6 +727,7 @@ conditionMet = nil
 -- Update player kills/deaths and team scores
 
 testDM.MagickaMultipliers = function(pid)
+	tes3mp.SendMessage(pid, color.LightGreen .. "MagickaMultipliers\n")
 	if Players[pid].data.mwTDM.magmult == 1 then
 	--if Players[pid].data.mwTDM. == 1 then
 	 --multiplier = 0
@@ -785,6 +790,13 @@ testDM.MagickaMultipliers = function(pid)
 		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..intelligencetimesmultiplier)
 
 	end
+
+--	if Players[pid].data.character.birthsign ~= "wombburned" then --regen magicka only if player isn't atronach
+--		MagickaRegen(pid)
+--	else
+--	end
+--	MagickaRegen(pid)
+--	testDM.AntiMagickaMultipliers(pid)
 end
 --	Players[pid].data.mwTDM.int = Players[pid].data.attributes.Intelligence.base
 	--hundred = 100
@@ -818,12 +830,13 @@ logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..newmagb
 end
 
 testDM.AntiMagickaMultipliers = function(pid)
+	tes3mp.SendMessage(pid, color.Orange .. "AntiMagickaMultipliers\n")
 	--for high elves add such and such multiplier, and aprentices and mages and bretons and atronachs
-	oldint = Players[pid].data.mwTDM.int
-	IntMultiplier = 0
-	magbase = Players[pid].data.stats.magickaBase
-	intbase = Players[pid].data.attributes.Intelligence.base
-	newmagbase = intbase * IntMultiplier
+	 oldint = Players[pid].data.mwTDM.int
+--	IntMultiplier = 0
+--	magbase = Players[pid].data.stats.magickaBase
+--	intbase = Players[pid].data.attributes.Intelligence.base
+--	newmagbase = intbase * IntMultiplier
 	--if Players[pid].data.mwTDM.magmult == 1 then
 --[[if Players[pid].data.mwTDM.magmult == 1 then
 
@@ -849,6 +862,7 @@ end
 testDM.ProcessDeath = function(pid)
 	tes3mp.SendMessage(pid, color.Green .. "ProcessDeath\n")
 	Players[pid].data.mwTDM.magmult = 1
+	AttributeHealing(pid)
 	--multiplier for certain characters who lose magicka multipliers on death.
 	testDM.MagickaMultipliers(pid)
 	--RespawnResting(pid)
@@ -1195,6 +1209,7 @@ function AttributeHealing(pid)
 	--tes3mp.SetAttributeDamage(pid, Luck, damage) --dunno how to use something like this..
 	tes3mp.SendAttributes(pid)
 end
+
 function RespawnResting(pid)--"resting" regeneration functions.
 	--testDM.MagickaMultipliers(pid)
 	HealthRegen(pid)--"resting" regeneration functions. Could maybe make a single function that will do all this instead of using all these words?
@@ -1205,7 +1220,7 @@ function RespawnResting(pid)--"resting" regeneration functions.
 	FatigueRegen(pid)
 
 	testDM.AntiMagickaMultipliers(pid)
-	AttributeHealing(pid)
+--	AttributeHealing(pid)
 end
 
 function getPlayerItemCount(pid, itemid) --used in the potion-refilling functions
@@ -1218,6 +1233,7 @@ function getPlayerItemCount(pid, itemid) --used in the potion-refilling function
 end
 
 testDM.PlayerSpawner3 = function(pid) --used in Playerinit2 for when NOT in the current match
+--	testDM.AntiMagickaMultipliers(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner3\n")
 	Players[pid].data.mwTDM.status = 1
 	math.random(1, 4) -- Improves RNG? LUA's random isn't great
@@ -1253,6 +1269,7 @@ testDM.PlayerSpawner3 = function(pid) --used in Playerinit2 for when NOT in the 
 	else
 	end
 	ResetMarkLocation(pid)
+--	AttributeHealing(pid)
 	--PotionRemoval(pid)
 end
 
@@ -1262,6 +1279,7 @@ end
 
 -- determines player's spawn location
 testDM.PlayerSpawner = function(pid)
+--	testDM.AntiMagickaMultipliers(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner\n")
 	Players[pid].data.mwTDM.status = 1
 	math.random(1, 4) -- Improves RNG? LUA's random isn't great
@@ -1300,6 +1318,7 @@ testDM.PlayerSpawner = function(pid)
 	else
 	end
 	ResetMarkLocation(pid)
+--	AttributeHealing(pid)
 --	tes3mp.SetMarkCell(pid, "")
 --	tes3mp.SetMarkPos(pid, 0, 0, 0)
 --	tes3mp.SetMarkRot(pid, 0, 0)
@@ -1313,6 +1332,7 @@ end
 	spawnlocation = 1
 	spawnlocationthing = 0
 testDM.PlayerSpawner2 = function(pid) --Used to spawn the player in the fighting area. Used in multiple functions.
+--	testDM.AntiMagickaMultipliers(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner2\n")
 	local LastSpawn = {}
 	Players[pid].data.mwTDM.status = 1
@@ -1365,6 +1385,7 @@ testDM.PlayerSpawner2 = function(pid) --Used to spawn the player in the fighting
 	--timerheal = tes3mp.CreateTimerEx("healtest", time.seconds(1), "i", pid)
 	--tes3mp.RestartTimer(timerheal, time.seconds(1))
 	ResetMarkLocation(pid)
+--	AttributeHealing(pid)
 	--refills potions
 	--PotionRefill(pid)
 	Players[pid].data.mwTDM.gm = 0
