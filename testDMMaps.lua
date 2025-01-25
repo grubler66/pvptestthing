@@ -95,5 +95,95 @@ testDMMaps.cave.teamSpawnLocations[2] = {
 
 }
 
+--
+testDMMaps.buyingarea = {}
+testDMMaps.buyingarea.usedCells = {"Pelagiad, North Wall"}
+testDMMaps.buyingarea.teamSpawnLocations = {}
+
+testDMMaps.buyingarea.teamSpawnLocations[1] = {
+
+	{"Pelagiad, North Wall", 1025.232, 781.309, -1657.201, -3},
+	{"Pelagiad, North Wall", 1019.6888427734, 671.27941894531, -803.76391601563, -3},
+	{"Pelagiad, North Wall", 965.70928955078, 774.45104980469, 4.4576110839844, -3},
+	{"Pelagiad, North Wall", 1029.8043212891, 797.92279052734, -2563.7998046875, -3},
+
+}
+
+testDMMaps.buyingarea.teamSpawnLocations[2] = {
+
+	{"Pelagiad, North Wall", 1025.232, 781.309, -1657.201, -3},
+	{"Pelagiad, North Wall", 1019.6888427734, 671.27941894531, -803.76391601563, -3},
+	{"Pelagiad, North Wall", 965.70928955078, 774.45104980469, 4.4576110839844, -3},
+	{"Pelagiad, North Wall", 1029.8043212891, 797.92279052734, -2563.7998046875, -3},
+
+}
+--
+
+testDMMaps.VArena = {}
+testDMMaps.VArena.usedCells = {"Vivec, Arena Pit"}
+testDMMaps.VArena.teamSpawnLocations = {}
+
+testDMMaps.VArena.teamSpawnLocations[1] = {
+
+	{"Vivec, Arena Pit", 543.977, -574.744, -425.124, 0},
+	{"Vivec, Arena Pit", 587.600, 591.615, -425.124, 0},
+	{"Vivec, Arena Pit", -568.378, 563.505, -425.124, 0},
+	{"Vivec, Arena Pit", -550.617, -552.272, -425.124, 0},
+
+}
+
+testDMMaps.VArena.teamSpawnLocations[2] = {
+
+	{"Vivec, Arena Pit", 543.977, -574.744, -425.124, 0},
+	{"Vivec, Arena Pit", 587.600, 591.615, -425.124, 0},
+	{"Vivec, Arena Pit", -568.378, 563.505, -425.124, 0},
+	{"Vivec, Arena Pit", -550.617, -552.272, -425.124, 0},
+
+}
+
+
+
+testDMMaps.Mtemple = {}
+testDMMaps.Mtemple.usedCells = {"Mournhold Temple"}
+testDMMaps.Mtemple.teamSpawnLocations = {}
+
+testDMMaps.Mtemple.teamSpawnLocations[1] = {
+
+	{"Mournhold Temple", 25.658, 264.222, -663.927, 0},
+	{"Mournhold Temple", -349.452, -103.937, -663.927, 0},
+	{"Mournhold Temple", -3.706, -448.250, -663.927, 0},
+	{"Mournhold Temple", 334.134, -100.055, -663.927, 0},
+
+}
+
+testDMMaps.Mtemple.teamSpawnLocations[2] = {
+
+	{"Mournhold Temple", 25.658, 264.222, -663.927, 0},
+	{"Mournhold Temple", -349.452, -103.937, -663.927, 0},
+	{"Mournhold Temple", -3.706, -448.250, -663.927, 0},
+	{"Mournhold Temple", 334.134, -100.055, -663.927, 0},
+
+
+}
+
+--[[testDMMaps.merchant.teamSpawnLocations[1] = {
+
+	{"Mournhold Temple", 25.658, 264.222, -663.927, 0},
+	{"Mournhold Temple", -349.452, -103.937, -663.927, 0},
+	{"Mournhold Temple", -3.706, -448.250, -663.927, 0},
+	{"Mournhold Temple", 334.134, -100.055, -663.927, 0},
+
+}
+
+testDMMaps.merchant.teamSpawnLocations[2] = {
+
+	{"Mournhold Temple", 25.658, 264.222, -663.927, 0},
+	{"Mournhold Temple", -349.452, -103.937, -663.927, 0},
+	{"Mournhold Temple", -3.706, -448.250, -663.927, 0},
+	{"Mournhold Temple", 334.134, -100.055, -663.927, 0},
+
+
+}]]
+
 
 return testDMMaps
