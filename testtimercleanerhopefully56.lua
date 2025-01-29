@@ -18,7 +18,7 @@ matchselectionmethod = testDMConfig.matchSelectionMethod
 matchRotationIndex = 1
 
 -- holds the data about the current match
-currentMatch = testDMMatchSettings.fort_dm
+currentMatch = testDMMatchSettings.VArena_dm--fort_dm
 
 -- used to hold data about the next match
 nextMatch = nil
@@ -243,7 +243,7 @@ function Eleven2(pid)
 	end
 end
 
-function Reset(pid)
+function Reset(pid) --resets cells 
 	local pid, p = next(Players)
 	if p ~= nil and p:IsLoggedIn() then
         logicHandler.ResetCell(pid, "-6, -1")
@@ -341,6 +341,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 end
 
 testDM.PlayerInit2 = function(pid) --used in matchinit
+    AttributeHealing(pid)
 	if Players[pid] ~= nil then
 		tes3mp.SendMessage(pid, color.Green .. "PlayerInit2\n")
 		tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
@@ -363,6 +364,7 @@ end
 
 testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
 --	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
+AttributeHealing(pid)
 	if Players[pid] ~= nil then
 		tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
@@ -390,6 +392,7 @@ end
 
 
 function PlayerIniti(pid) --Used for teleportation into the round.
+    AttributeHealing(pid)
 	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti\n")
 	if Players[pid] ~= nil then
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
@@ -428,6 +431,8 @@ end
 
 -- make player ready to be spawned in game
 testDM.PlayerInit = function(pid)
+	SkillUpdating(pid)
+    AttributeHealing(pid)
 	if Players[pid] ~= nil then
 	tes3mp.SendMessage(pid, color.Green .. "PlayerInit\n")
 	tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
@@ -621,6 +626,8 @@ end
 
 conditionMet = nil
 
+
+
 -- TODO: properly seperate handling for deathmatch and team deathmatch   
 -- Update player kills/deaths and team scores
 
@@ -681,7 +688,122 @@ testDM.AntiMagickaMultipliers = function(pid)
 	logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIntelligence ' ..oldint)
     Players[pid].data.mwTDM.magmult = 0
 end
+--
 
+function SkillUpdating(pid)
+	tes3mp.SendMessage(pid, color.Pink .. "SkillUpdating\n")
+	if Players[pid].data.skills.Block.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBlock 30')
+	--	Players[pid].data.skills.Block.base = 30
+	else
+	end
+	if Players[pid].data.skills.Restoration.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetRestoration 30')
+	else
+	end
+	if Players[pid].data.skills.Conjuration.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetConjuration 30')
+	else
+	end
+	if Players[pid].data.skills.Marksman.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMarksman 30')
+	else
+	end
+	if Players[pid].data.skills.Mediumarmor.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMediumarmor 30')
+	else
+	end
+	if Players[pid].data.skills.Alteration.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlteration 30')
+	else
+	end
+	if Players[pid].data.skills.Heavyarmor.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHeavyarmor 30')
+	else
+	end
+	if Players[pid].data.skills.Mercantile.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMercantile 30')
+	else
+	end
+	if Players[pid].data.skills.Shortblade.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetShortblade 30')
+	else
+	end
+	if Players[pid].data.skills.Acrobatics.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAcrobatics 30')
+	else
+	end
+	if Players[pid].data.skills.Lightarmor.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLightarmor 30')
+	else
+	end
+	if Players[pid].data.skills.Longblade.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLongblade 30')
+	else
+	end
+	if Players[pid].data.skills.Axe.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAxe 30')
+	else
+	end
+	if Players[pid].data.skills.Enchant.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetEnchant 30')
+	else
+	end
+	if Players[pid].data.skills.Destruction.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetDestruction 30')
+	else
+	end
+	if Players[pid].data.skills.Athletics.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAthletics 30')
+	else
+	end
+	if Players[pid].data.skills.Illusion.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIllusion 30')
+	else
+	end
+	if Players[pid].data.skills.Mysticism.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMysticism 30')
+	else
+	end
+	if Players[pid].data.skills.Spear.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpear 30')
+	else
+	end
+	if Players[pid].data.skills.Bluntweapon.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBluntweapon 30')
+	else
+	end
+	if Players[pid].data.skills.Handtohand.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHandtohand 30')
+	else
+	end
+	if Players[pid].data.skills.Unarmored.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetUnarmored 30')
+	else
+	end
+	if Players[pid].data.skills.Speechcraft.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpeechcraft 30')
+	else
+	end
+	if Players[pid].data.skills.Alchemy.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlchemy 30')
+	else
+	end
+	if Players[pid].data.skills.Sneak.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSneak 30')
+	else
+	end
+	if Players[pid].data.skills.Security.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSecurity 30')
+	else
+	end
+--[[	if Players[pid].data.skills.Alchemy.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlchemy 30')
+	else
+	end]]
+end
+
+--
 testDM.ProcessDeath = function(pid)
 	tes3mp.SendMessage(pid, color.Green .. "ProcessDeath\n")
 	Players[pid].data.mwTDM.magmult = 1
@@ -819,6 +941,7 @@ end
 
 -- SetAttributeDamage possibly used for potentially healing damaged attributes for the respawn healing functions...
 function AttributeHealing(pid)
+    tes3mp.SendMessage(pid, color.LightBlue .. "AttributeHealing\n")
 	Strength = tes3mp.GetAttributeId("Strength")
 	Intelligence = tes3mp.GetAttributeId("Intelligence")
 	Willpower = tes3mp.GetAttributeId("Willpower")
