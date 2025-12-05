@@ -708,113 +708,113 @@ end
 
 function SkillUpdating(pid)
 	tes3mp.SendMessage(pid, color.Pink .. "SkillUpdating\n")
-	if Players[pid].data.skills.Block.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBlock 40')
+	if Players[pid].data.skills.Block.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBlock 30')
 	--	Players[pid].data.skills.Block.base = 30
 	else
 	end
-	if Players[pid].data.skills.Restoration.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetRestoration 40')
+	if Players[pid].data.skills.Restoration.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetRestoration 30')
 	else
 	end
-	if Players[pid].data.skills.Conjuration.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetConjuration 40')
+	if Players[pid].data.skills.Conjuration.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetConjuration 30')
 	else
 	end
-	if Players[pid].data.skills.Marksman.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMarksman 40')
+	if Players[pid].data.skills.Marksman.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMarksman 30')
 	else
 	end
-	if Players[pid].data.skills.Mediumarmor.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMediumarmor 40')
+	if Players[pid].data.skills.Mediumarmor.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMediumarmor 30')
 	else
 	end
-	if Players[pid].data.skills.Alteration.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlteration 40')
+	if Players[pid].data.skills.Alteration.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlteration 30')
 	else
 	end
-	if Players[pid].data.skills.Heavyarmor.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHeavyarmor 40')
+	if Players[pid].data.skills.Heavyarmor.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHeavyarmor 30')
 	else
 	end
-	if Players[pid].data.skills.Mercantile.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMercantile 40')
+	if Players[pid].data.skills.Mercantile.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMercantile 30')
 	else
 	end
-	if Players[pid].data.skills.Shortblade.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetShortblade 40')
+	if Players[pid].data.skills.Shortblade.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetShortblade 30')
 	else
 	end
-	if Players[pid].data.skills.Acrobatics.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAcrobatics 40')
+	if Players[pid].data.skills.Acrobatics.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAcrobatics 30')
 	else
 	end
-	if Players[pid].data.skills.Lightarmor.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLightarmor 40')
+	if Players[pid].data.skills.Lightarmor.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLightarmor 30')
 	else
 	end
-	if Players[pid].data.skills.Longblade.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLongblade 40')
+	if Players[pid].data.skills.Longblade.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLongblade 30')
 	else
 	end
-	if Players[pid].data.skills.Axe.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAxe 40')
+	if Players[pid].data.skills.Axe.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAxe 30')
 	else
 	end
-	if Players[pid].data.skills.Enchant.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetEnchant 40')
+	if Players[pid].data.skills.Enchant.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetEnchant 30')
 	else
 	end
-	if Players[pid].data.skills.Destruction.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetDestruction 40')
+	if Players[pid].data.skills.Destruction.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetDestruction 30')
 	else
 	end
-	if Players[pid].data.skills.Athletics.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAthletics 40')
+	if Players[pid].data.skills.Athletics.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAthletics 30')
 	else
 	end
-	if Players[pid].data.skills.Illusion.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIllusion 40')
+	if Players[pid].data.skills.Illusion.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIllusion 30')
 	else
 	end
-	if Players[pid].data.skills.Mysticism.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMysticism 40')
+	if Players[pid].data.skills.Mysticism.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMysticism 30')
 	else
 	end
-	if Players[pid].data.skills.Spear.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpear 40')
+	if Players[pid].data.skills.Spear.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpear 30')
 	else
 	end
-	if Players[pid].data.skills.Bluntweapon.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBluntweapon 40')
+	if Players[pid].data.skills.Bluntweapon.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBluntweapon 30')
 	else
 	end
-	if Players[pid].data.skills.Handtohand.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHandtohand 40')
+	if Players[pid].data.skills.Handtohand.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHandtohand 30')
 	else
 	end
-	if Players[pid].data.skills.Unarmored.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetUnarmored 40')
+	if Players[pid].data.skills.Unarmored.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetUnarmored 30')
 	else
 	end
-	if Players[pid].data.skills.Speechcraft.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpeechcraft 40')
+	if Players[pid].data.skills.Speechcraft.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpeechcraft 30')
 	else
 	end
-	if Players[pid].data.skills.Alchemy.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlchemy 40')
+	if Players[pid].data.skills.Alchemy.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlchemy 30')
 	else
 	end
-	if Players[pid].data.skills.Sneak.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSneak 40')
+	if Players[pid].data.skills.Sneak.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSneak 30')
 	else
 	end
-	if Players[pid].data.skills.Security.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSecurity 40')
+	if Players[pid].data.skills.Security.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSecurity 30')
 	else
 	end
-	if Players[pid].data.skills.Security.base < 40 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetArmorer 40')
+	if Players[pid].data.skills.Security.base < 30 then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetArmorer 30')
 	else
 	end
 --[[	if Players[pid].data.skills.Alchemy.base < 30 then
