@@ -46,7 +46,7 @@ lastScoringTeam = nil
 
 -----------------------------------------------------------------------------
 --timers may cause crashing when setting off
-
+--timerspawn = tes3mp.CreateTimer("PlayerIniti", time.seconds(120))
 timer44 = tes3mp.CreateTimer("Three", time.seconds(5))
 timer22 = tes3mp.CreateTimer("Reset", time.seconds(1))
 timer23 = tes3mp.CreateTimer("Reset2", time.seconds(60))
@@ -115,6 +115,7 @@ testDM.MatchInit = function() -- Starts new match, resets matchId, controls map 
 			if p ~= nil and p:IsLoggedIn() and Players[pid].data.mwTDM ~= nil then
 				timerspawn = tes3mp.CreateTimerEx("PlayerIniti", time.seconds(120), "i", pid)
 				tes3mp.RestartTimer(timerspawn, time.seconds(120))
+			else
 			end
 		end
 
@@ -184,6 +185,52 @@ function Six()
 	end
 end
 
+
+
+--[[function PlayerIniti()
+
+	for pid, p in pairs(Players) do -- Iterate through all players 
+		if p ~= nil and p:IsLoggedIn() then
+				tes3mp.SendMessage(pid, color.Red .. ":10 \n", false)
+		end
+	end
+
+end]]
+
+
+
+
+
+
+
+--[[function PlayerInitii(pid)
+	for pid, p in pairs(Players) do -- Iterate through all players 
+		if p ~= nil and p:IsLoggedIn() then
+				tes3mp.SendMessage(pid, color.Red .. ":10 \n", false)
+		end
+
+	if Players[pid] ~= nil then
+	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
+	    testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
+	    tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
+	    -- Check player's last matchId to determine whether to reset their character
+	    if Players[pid].data.mwTDM.matchId == matchId then
+	    	tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
+		    testDM.PlayerSpawner2(pid)
+	    else -- Player's latest match ID doesn't equal that of current match
+		    --logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25')
+		    Players[pid].data.mwTDM.lives = 5
+		    testDM.PlayerSpawner(pid)
+		end
+	end
+end
+end]]
+
+
+
+
+
+
 function Six2()
 	for pid, p in pairs(Players) do -- Iterate through all players 
 		if p ~= nil and p:IsLoggedIn() then
@@ -239,11 +286,13 @@ function Eleven2(pid)
 		end
 		if p ~= nil and p:IsLoggedIn() and Players[pid].data.mwTDM ~= nil and Players[pid].data.mwTDM.inmatch == 1 then
 			Players[pid].data.mwTDM.inarena = 1
+		else
 		end
 	end
 end
 
 function Reset(pid) --resets cells 
+	tes3mp.LogMessage(2, "Reset")
 	local pid, p = next(Players)
 	if p ~= nil and p:IsLoggedIn() then
         logicHandler.ResetCell(pid, "-6, -1")
@@ -256,6 +305,7 @@ end
 
 function EndIt() -- Ends the round and starts a new one? Maybe?
     --check every player and see who has the most lives, and if they have the most, then they won, and if it is a tie, then they tied
+	tes3mp.LogMessage(2, "EndIt")
     local bestlifenumber = 0
     local numberofbestlifepeople = 0
     for pid, p in pairs(Players) do
@@ -343,6 +393,7 @@ function EndIt() -- Ends the round and starts a new one? Maybe?
 end
 
 testDM.PlayerInit2 = function(pid) --used in matchinit
+	tes3mp.LogMessage(2, "PlayerInit2")
     AttributeHealing(pid)
 	if Players[pid] ~= nil then
 		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 150')-- adds 150 gold
@@ -351,24 +402,25 @@ testDM.PlayerInit2 = function(pid) --used in matchinit
 		tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 		testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
 		tes3mp.LogMessage(2, "++++ --PlayerInit: Checking matchId of player " .. Players[pid].data.login.name .. " against matchId #" .. matchId .. ". ++++")
-	-- Check player's last matchId to determine whether to reset their character
+		-- Check player's last matchId to determine whether to reset their character
 		if Players[pid].data.mwTDM.matchId == matchId then
 			tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
 			tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
 			testDM.PlayerSpawner(pid)
 			else -- Player's latest match ID doesn't equal that of current match
-		--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 100') -- maybe this was where we had the 25 gold for all people? even if they didn't survive?
-		Players[pid].data.mwTDM.inmatch = 0
-		tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
-		testDM.PlayerSpawner3(pid)
+			--logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 100') -- maybe this was where we had the 25 gold for all people? even if they didn't survive?
+			Players[pid].data.mwTDM.inmatch = 0
+			tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
+			testDM.PlayerSpawner3(pid)
 		end
 	end
 end
 
 
 testDM.PlayerIniti2 = function(pid) -- Used for Onplayerfinishlogin?
---	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
-AttributeHealing(pid)
+	--	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
+	tes3mp.LogMessage(2, "PlayerIniti2")
+	AttributeHealing(pid)
 	if Players[pid] ~= nil then
 		tes3mp.SendMessage(pid, color.Green .. "PlayerIniti2\n")
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
@@ -379,25 +431,32 @@ AttributeHealing(pid)
 		    Players[pid].data.mwTDM.inmatch = 1
 		    tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
 		    tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
-		    testDM.PlayerSpawner(pid)
-		elseif Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1 and Players[pid].data.mwTDM.inarena == 1 then
+			testDM.PlayerSpawner(pid)
+			elseif Players[pid].data.mwTDM.matchId == matchId and Players[pid].data.mwTDM.inmatch == 1 and Players[pid].data.mwTDM.inarena == 1 then
 
-		    Players[pid].data.mwTDM.inmatch = 1
-		    tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
-		    tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
-		    testDM.PlayerSpawner2(pid)
-	    else -- Player's latest match ID doesn't equal that of current match
-	    	Players[pid].data.mwTDM.inmatch = 0
-		    tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
-		    Players[pid].data.mwTDM.lives = 1
-		    testDM.PlayerSpawner(pid)
-	end
-end
+		    	Players[pid].data.mwTDM.inmatch = 1
+		   		 tes3mp.SendMessage(pid, color.LightBlue .. "You are in the current match.\n")
+		   		 tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
+		   		 testDM.PlayerSpawner2(pid)
+	    		else -- Player's latest match ID doesn't equal that of current match
+	    			Players[pid].data.mwTDM.inmatch = 0
+		   	 		tes3mp.SendMessage(pid, color.LightBlue .. "You are not in the current match.\n")
+		   		 Players[pid].data.mwTDM.lives = 1
+		   	 		testDM.PlayerSpawner(pid)
+				end
+			end
+		end
+
 
 
 function PlayerIniti(pid) --Used for teleportation into the round.
+
     AttributeHealing(pid)
+
+
+for pid, p in pairs(Players) do
 	tes3mp.SendMessage(pid, color.Green .. "PlayerIniti\n")
+end
 	if Players[pid] ~= nil then
 	    tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 	    testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
@@ -407,7 +466,7 @@ function PlayerIniti(pid) --Used for teleportation into the round.
 	    	tes3mp.LogMessage(2, "++++ --PlayerInit: matchId is the same. ++++")
 		    testDM.PlayerSpawner2(pid)
 	    else -- Player's latest match ID doesn't equal that of current match
-		    --logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 25')
+
 		    Players[pid].data.mwTDM.lives = 5
 		    testDM.PlayerSpawner(pid)
 		    for pid, p in pairs(Players) do -- Iterate through all players and start assigning teams
@@ -430,11 +489,14 @@ function PlayerIniti(pid) --Used for teleportation into the round.
     else
     end
 end
-end
+--end
 
+---testDM.TeamHandler = function(pid)
+--end
 
 -- make player ready to be spawned in game
 testDM.PlayerInit = function(pid)
+	tes3mp.LogMessage(2, "PlayerInit")
 	SkillUpdating(pid)
     AttributeHealing(pid)
 	if Players[pid] ~= nil then
@@ -707,114 +769,116 @@ end
 --
 
 function SkillUpdating(pid)
+
+	local value = 40
 	tes3mp.SendMessage(pid, color.Pink .. "SkillUpdating\n")
-	if Players[pid].data.skills.Block.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBlock 30')
+	if Players[pid].data.skills.Block.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBlock ' ..value)
 	--	Players[pid].data.skills.Block.base = 30
 	else
 	end
-	if Players[pid].data.skills.Restoration.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetRestoration 30')
+	if Players[pid].data.skills.Restoration.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetRestoration ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Conjuration.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetConjuration 30')
+	if Players[pid].data.skills.Conjuration.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetConjuration ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Marksman.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMarksman 30')
+	if Players[pid].data.skills.Marksman.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMarksman ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Mediumarmor.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMediumarmor 30')
+	if Players[pid].data.skills.Mediumarmor.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMediumarmor ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Alteration.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlteration 30')
+	if Players[pid].data.skills.Alteration.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlteration ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Heavyarmor.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHeavyarmor 30')
+	if Players[pid].data.skills.Heavyarmor.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHeavyarmor ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Mercantile.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMercantile 30')
+	if Players[pid].data.skills.Mercantile.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMercantile ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Shortblade.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetShortblade 30')
+	if Players[pid].data.skills.Shortblade.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetShortblade ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Acrobatics.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAcrobatics 30')
+	if Players[pid].data.skills.Acrobatics.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAcrobatics ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Lightarmor.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLightarmor 30')
+	if Players[pid].data.skills.Lightarmor.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLightarmor ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Longblade.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLongblade 30')
+	if Players[pid].data.skills.Longblade.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetLongblade ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Axe.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAxe 30')
+	if Players[pid].data.skills.Axe.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAxe ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Enchant.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetEnchant 30')
+	if Players[pid].data.skills.Enchant.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetEnchant ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Destruction.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetDestruction 30')
+	if Players[pid].data.skills.Destruction.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetDestruction ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Athletics.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAthletics 30')
+	if Players[pid].data.skills.Athletics.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAthletics ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Illusion.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIllusion 30')
+	if Players[pid].data.skills.Illusion.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetIllusion ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Mysticism.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMysticism 30')
+	if Players[pid].data.skills.Mysticism.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetMysticism ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Spear.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpear 30')
+	if Players[pid].data.skills.Spear.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpear ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Bluntweapon.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBluntweapon 30')
+	if Players[pid].data.skills.Bluntweapon.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetBluntweapon ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Handtohand.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHandtohand 30')
+	if Players[pid].data.skills.Handtohand.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetHandtohand ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Unarmored.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetUnarmored 30')
+	if Players[pid].data.skills.Unarmored.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetUnarmored ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Speechcraft.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpeechcraft 30')
+	if Players[pid].data.skills.Speechcraft.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSpeechcraft ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Alchemy.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlchemy 30')
+	if Players[pid].data.skills.Alchemy.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetAlchemy ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Sneak.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSneak 30')
+	if Players[pid].data.skills.Sneak.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSneak ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Security.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSecurity 30')
+	if Players[pid].data.skills.Security.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetSecurity ' ..value)
 	else
 	end
-	if Players[pid].data.skills.Security.base < 30 then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetArmorer 30')
+	if Players[pid].data.skills.Security.base < value then
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->SetArmorer ' ..value)
 	else
 	end
 --[[	if Players[pid].data.skills.Alchemy.base < 30 then
@@ -961,6 +1025,7 @@ end
 
 -- SetAttributeDamage possibly used for potentially healing damaged attributes for the respawn healing functions...
 function AttributeHealing(pid)
+	tes3mp.LogMessage(2, "AttributeHealing")
     tes3mp.SendMessage(pid, color.LightBlue .. "AttributeHealing\n")
 	Strength = tes3mp.GetAttributeId("Strength")
 	Intelligence = tes3mp.GetAttributeId("Intelligence")
@@ -1072,6 +1137,7 @@ end
 
 -- determines player's spawn location
 testDM.PlayerSpawner = function(pid)
+	tes3mp.LogMessage(2, "PlayerSpawner")
 	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner\n")
 	local LastSpawn = {}
 	Players[pid].data.mwTDM.status = 1
@@ -1153,6 +1219,7 @@ end
 	spawnlocationthing = 0
 
 testDM.PlayerSpawner2 = function(pid) --Used to spawn the player in the fighting area. Used in multiple functions.
+	tes3mp.LogMessage(2, "PlayerSpawner2")
 	tes3mp.SendMessage(pid, color.Green .. "PlayerSpawner2\n")
 	local LastSpawn = {}
 	Players[pid].data.mwTDM.status = 1
