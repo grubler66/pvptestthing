@@ -124,6 +124,29 @@ testDMMaps.VArena.teamSpawnLocations[2] = {
 }
 
 
+testDMMaps.Swamp = {}
+testDMMaps.Swamp.usedCells = {"-5,-3", "-6,-3", "-6,-2"}
+testDMMaps.Swamp.teamSpawnLocations = {}
+
+testDMMaps.Swamp.teamSpawnLocations[1] = {
+
+	{"-5,-3", -35899, -16605, 302, 0},
+	{"-5,-3", -38214, -20047, 329, 0},
+	{"-6,-3", -41959, -22019, 104, 0},
+	{"-6,-2", -44553, -15446, 115, 0},
+
+}
+
+testDMMaps.Swamp.teamSpawnLocations[2] = {
+
+	{"-5,-3", -35899, -16605, 302, 0},
+	{"-5,-3", -38214, -20047, 329, 0},
+	{"-6,-3", -41959, -22019, 104, 0},
+	{"-6,-2", -44553, -15446, 115, 0},
+
+}
+
+
 
 testDMMaps.Mtemple = {}
 testDMMaps.Mtemple.usedCells = {"Mournhold Temple"}

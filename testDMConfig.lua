@@ -12,7 +12,7 @@ testDMConfig = {}
 testDMConfig.matchSelectionMethod = 1
 
 -- all the matches that can be played on the server (and the order the maps cycle in)
-testDMConfig.matchList = {"fort_dm", "cave_dm", "VArena_dm", "Mtemple_dm", "juno_dm"}
+testDMConfig.matchList = {"fort_dm", "cave_dm", "VArena_dm", "Mtemple_dm", "juno_dm", "Swamp_dm"}
 
 -- Number of kills required for either team to win
 testDMConfig.scoreLimit = 10

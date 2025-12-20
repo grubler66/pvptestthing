@@ -23,6 +23,15 @@ testDMMatchSettings.VArena_dm.scoreLimit = 10
 testDMMatchSettings.VArena_dm.additionalEquipment = {}
 testDMMatchSettings.VArena_dm.itemsOnMap = {}
 
+-- deathmatch in a Swamp
+testDMMatchSettings.Swamp_dm = {}
+testDMMatchSettings.Swamp_dm.name = "Swamp (deathmatch)"
+testDMMatchSettings.Swamp_dm.gameMode = "dm"
+testDMMatchSettings.Swamp_dm.map = testDMMaps.Swamp
+testDMMatchSettings.Swamp_dm.scoreLimit = 10
+testDMMatchSettings.Swamp_dm.additionalEquipment = {}
+testDMMatchSettings.Swamp_dm.itemsOnMap = {}
+
 
 -- deathmatch in a temple
 testDMMatchSettings.Mtemple_dm = {}
