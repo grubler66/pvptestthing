@@ -50,10 +50,10 @@ lastScoringTeam = nil
 timer44 = tes3mp.CreateTimer("Three", time.seconds(5))
 timer22 = tes3mp.CreateTimer("Reset", time.seconds(1))
 timer23 = tes3mp.CreateTimer("Reset2", time.seconds(60))
-timer33 = tes3mp.CreateTimer("warning1", time.minutes(1))  -- "1 Minute Left until fight starts!""
-timer4 = tes3mp.CreateTimer("Four", time.minutes(6))
-timer1 = tes3mp.CreateTimer("One", time.minutes(2))
-timertest = tes3mp.CreateTimer("EndIt", time.minutes(7))
+timer33 = tes3mp.CreateTimer("warning1", time.minutes(1.5))  -- "1 Minute Left until fight starts!""
+timer4 = tes3mp.CreateTimer("Four", time.minutes(6.5))  -- 1:00 left warning for match end
+timer1 = tes3mp.CreateTimer("One", time.minutes(2.5))  -- 5:00 round start message
+timertest = tes3mp.CreateTimer("EndIt", time.minutes(7.5)) --match duration, time until the next match starts
 ----------------------------------------------------------------------------------------
 
 -- Starts the match with the currently existing configuration
@@ -102,19 +102,19 @@ testDM.MatchInit = function() -- Starts new match, resets matchId, controls map 
 			Players[pid].data.mwTDM.inmatch = 1 
 			Players[pid].data.mwTDM.inarena = 0
 				testDM.PlayerInit2(p.pid)
-				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 10 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 7 minutes\n" .. color.Red .. "Fight starts in 2 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
+				tes3mp.SendMessage(pid, color.Orange .. "NEW ROUND: " .. currentMatch.name .. "\nRested 10 hours.\n" .. color.Yellow .. "25 Gold added(or not).\nMatch duration: 7:30 minutes\n" .. color.Red .. "Fight starts in 2:30 minutes!\n" .. color.Orange .. "Get Ready!\n", false)
 		end
 	end
 	timer0 = tes3mp.CreateTimer("EndIt", time.minutes(2))	-- Does nothing?
 	tes3mp.RestartTimer(timer44, time.minutes(10))
-	tes3mp.RestartTimer(timer1, time.minutes(2))
-	tes3mp.RestartTimer(timer33, time.minutes(1))  -- warning1 "1 Minute Left until fight starts!"
-	tes3mp.RestartTimer(timer4, time.minutes(6))
-	tes3mp.RestartTimer(timertest, time.minutes(7))  -- Ends the round
+	tes3mp.RestartTimer(timer1, time.minutes(2.5)) -- 5:00 round start message
+	tes3mp.RestartTimer(timer33, time.minutes(1.5))  -- warning1 "1 Minute Left until fight starts!"
+	tes3mp.RestartTimer(timer4, time.minutes(6.5)) -- 1:00 left warning for match end
+	tes3mp.RestartTimer(timertest, time.minutes(7.5))  -- Ends the round
 		for pid, p in pairs(Players) do --this is for the uhhh teleportation into the round.. interesting... 
 			if p ~= nil and p:IsLoggedIn() and Players[pid].data.mwTDM ~= nil then
-				timerspawn = tes3mp.CreateTimerEx("PlayerIniti", time.seconds(120), "i", pid)
-				tes3mp.RestartTimer(timerspawn, time.seconds(120))
+				timerspawn = tes3mp.CreateTimerEx("PlayerIniti", time.seconds(150), "i", pid)
+				tes3mp.RestartTimer(timerspawn, time.seconds(150))
 			else
 			end
 		end
@@ -396,8 +396,8 @@ testDM.PlayerInit2 = function(pid) --used in matchinit
 	tes3mp.LogMessage(2, "PlayerInit2")
     AttributeHealing(pid)
 	if Players[pid] ~= nil then
-		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 150')-- adds 150 gold
-        tes3mp.SendMessage(pid, color.Yellow .. "Added 100 gold.\n")
+		logicHandler.RunConsoleCommandOnPlayer(pid, 'player->AddItem "Gold_001" 200')-- adds 200 gold
+        tes3mp.SendMessage(pid, color.Yellow .. "Added 200 gold.\n")
 		tes3mp.SendMessage(pid, color.Green .. "PlayerInit2\n")
 		tes3mp.LogMessage(2, "++++ Initialising PID ", pid)
 		testDM.JSONCheck(pid) -- Check if player has TDM info added to their JSON file -- from what I see in fuction, this doesn't just check, this makes sure that there is data to work with
